@@ -37,7 +37,6 @@
             --shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.08);
         }
 
-        /* ===== RESET ===== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
@@ -296,8 +295,16 @@
 
         /* ===== FORM ===== */
         .form-group { margin-bottom: 12px; }
-        .form-group label { display: block; font-weight: 600; font-size: 0.75rem; margin-bottom: 3px; color: var(--text-secondary); letter-spacing: 0.3px; text-transform: uppercase; }
-        .form-group input[type="text"], .form-group input[type="url"] {
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.75rem;
+            margin-bottom: 3px;
+            color: var(--text-secondary);
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+        }
+        .form-group input[type="text"], .form-group input[type="url"], .form-group input[type="number"] {
             width: 100%;
             padding: 10px 14px;
             border: 1.5px solid var(--border-color);
@@ -313,6 +320,12 @@
             border-color: var(--accent);
             box-shadow: 0 0 0 3px var(--accent-dim), 0 0 20px var(--accent-dim);
         }
+        .form-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .form-row .form-group { flex: 1; min-width: 100px; }
 
         .file-upload-wrapper {
             display: flex;
@@ -373,6 +386,25 @@
         .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 40px rgba(108, 92, 231, 0.3); filter: brightness(1.05); }
         .btn-primary:active { transform: scale(0.97); }
         .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1.5px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all var(--transition);
+        }
+        .btn-secondary:hover { border-color: var(--accent); color: var(--text-primary); }
+        .btn-secondary.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #fff;
+            box-shadow: 0 0 20px var(--accent-dim);
+        }
 
         /* ===== RESULT AREA ===== */
         .result-area {
@@ -568,6 +600,7 @@
             .file-upload-wrapper { flex-direction: column; align-items: stretch; }
             .file-upload-btn { justify-content: center; }
             .btn-primary { width: 100%; justify-content: center; padding: 10px 20px; font-size: 12px; }
+            .form-row { flex-direction: column; }
             .toast { left: 16px; right: 16px; bottom: 16px; justify-content: center; text-align: center; }
             .footer { font-size: 0.65rem; gap: 12px; }
         }
@@ -599,7 +632,7 @@
     <!-- ===== GLASS PANEL ===== -->
     <div class="glass-panel">
 
-        <!-- HEADER : logo kiri, sosial+toggle kanan -->
+        <!-- HEADER -->
         <header class="header">
             <div class="header-left">
                 <img class="logo-img" src="https://o.uguu.se/KLhBPUMw.jpeg" alt="Ino.Tools" onerror="this.style.display='none'" />
@@ -622,12 +655,13 @@
             <div class="tabs-scroll" id="tabsScroll">
                 <button class="tab-btn active" data-tab="web2apk"><i class="fas fa-globe"></i> Web2APK</button>
                 <button class="tab-btn" data-tab="hdvidd"><i class="fas fa-video"></i> HD Video</button>
-                <button class="tab-btn" data-tab="upscale"><i class="fas fa-expand"></i> Upscale</button>
+                <button class="tab-btn" data-tab="enhancer"><i class="fas fa-expand"></i> Enhancer</button>
                 <button class="tab-btn" data-tab="qrcode"><i class="fas fa-qrcode"></i> QR Code</button>
                 <button class="tab-btn" data-tab="removebg"><i class="fas fa-image"></i> Remove BG</button>
                 <button class="tab-btn" data-tab="img2prompt"><i class="fas fa-pen-fancy"></i> Img2Prompt</button>
                 <button class="tab-btn" data-tab="allinone"><i class="fas fa-download"></i> All-in-One</button>
                 <button class="tab-btn" data-tab="faceswap"><i class="fas fa-exchange-alt"></i> Face Swap</button>
+                <button class="tab-btn" data-tab="winrate"><i class="fas fa-trophy"></i> WR MLBB</button>
             </div>
             <button class="tab-scroll-btn" id="tabScrollRight"><i class="fas fa-chevron-right"></i></button>
         </div>
@@ -646,17 +680,37 @@
             </div>
         </div>
 
-        <!-- HD Video - UPLOAD FILE -->
+        <!-- HD Video - dengan toggle v1/v2 -->
         <div class="panel" id="panel-hdvidd">
             <div class="card">
                 <div class="card-title"><i class="fas fa-video"></i> HD Video</div>
-                <div class="card-desc">Upload video untuk ditingkatkan kualitasnya ke resolusi HD.</div>
+                <div class="card-desc">Upload video atau masukkan URL untuk ditingkatkan ke resolusi HD.</div>
                 <div class="form-group">
-                    <label>Pilih Video</label>
+                    <label>Pilih Video (upload)</label>
                     <div class="file-upload-wrapper">
                         <input type="file" id="hd_file" accept="video/*" />
                         <label for="hd_file" class="file-upload-btn"><i class="fas fa-folder-open"></i> Pilih dari Galeri</label>
                         <span class="file-name" id="hd_filename">Tidak ada file</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Atau URL Video</label>
+                    <input type="url" id="hd_url" placeholder="https://example.com/video.mp4" value="" />
+                </div>
+                <div class="form-group">
+                    <label>Resolusi</label>
+                    <select id="hd_resolusi" style="width:100%;padding:10px 14px;border-radius:12px;background:rgba(0,0,0,0.2);border:1.5px solid var(--border-color);color:var(--text-primary);font-size:13px;outline:none;">
+                        <option value="hd">HD (720p)</option>
+                        <option value="fullhd">Full HD (1080p)</option>
+                        <option value="2k">2K</option>
+                        <option value="4k">4K</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Versi API</label>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                        <button class="btn-secondary active" id="hdv1" data-version="v1">v1 (nexray)</button>
+                        <button class="btn-secondary" id="hdv2" data-version="v2">v2 (nexray)</button>
                     </div>
                 </div>
                 <button class="btn-primary" id="btn-hdvidd"><i class="fas fa-play"></i> Proses HD</button>
@@ -664,21 +718,21 @@
             </div>
         </div>
 
-        <!-- Upscale -->
-        <div class="panel" id="panel-upscale">
+        <!-- Enhancer (ganti Upscale) -->
+        <div class="panel" id="panel-enhancer">
             <div class="card">
-                <div class="card-title"><i class="fas fa-expand"></i> Upscale Gambar</div>
-                <div class="card-desc">Perbesar resolusi gambar tanpa kehilangan kualitas.</div>
+                <div class="card-title"><i class="fas fa-expand"></i> Enhancer</div>
+                <div class="card-desc">Tingkatkan kualitas gambar dengan AI Enhancer.</div>
                 <div class="form-group">
                     <label>Pilih Gambar</label>
                     <div class="file-upload-wrapper">
-                        <input type="file" id="upscale_file" accept="image/*" />
-                        <label for="upscale_file" class="file-upload-btn"><i class="fas fa-folder-open"></i> Pilih dari Galeri</label>
-                        <span class="file-name" id="upscale_filename">Tidak ada file</span>
+                        <input type="file" id="enhancer_file" accept="image/*" />
+                        <label for="enhancer_file" class="file-upload-btn"><i class="fas fa-folder-open"></i> Pilih dari Galeri</label>
+                        <span class="file-name" id="enhancer_filename">Tidak ada file</span>
                     </div>
                 </div>
-                <button class="btn-primary" id="btn-upscale"><i class="fas fa-expand"></i> Upscale</button>
-                <div class="result-area" id="result-upscale"></div>
+                <button class="btn-primary" id="btn-enhancer"><i class="fas fa-expand"></i> Enhance</button>
+                <div class="result-area" id="result-enhancer"></div>
             </div>
         </div>
 
@@ -729,14 +783,21 @@
             </div>
         </div>
 
-        <!-- All-in-One -->
+        <!-- All-in-One Downloader v2 + toggle -->
         <div class="panel" id="panel-allinone">
             <div class="card">
-                <div class="card-title"><i class="fas fa-download"></i> All-in-One Download</div>
-                <div class="card-desc">Download semua konten dari URL (video, audio, dll).</div>
+                <div class="card-title"><i class="fas fa-download"></i> All-in-One Downloader</div>
+                <div class="card-desc">Download konten dari URL (video, audio, dll).</div>
                 <div class="form-group">
                     <label>URL Konten</label>
                     <input type="url" id="allinone_url" placeholder="https://example.com/video" value="https://sample-videos.com/video321/mp4/720/big_buck_bunny_720p_1mb.mp4" />
+                </div>
+                <div class="form-group">
+                    <label>Versi API</label>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                        <button class="btn-secondary active" id="aiov2" data-version="v2">v2 (axly)</button>
+                        <button class="btn-secondary" id="aiov1" data-version="v1">v1 (nexray)</button>
+                    </div>
                 </div>
                 <button class="btn-primary" id="btn-allinone"><i class="fas fa-download"></i> Download</button>
                 <div class="result-area" id="result-allinone"></div>
@@ -769,8 +830,32 @@
             </div>
         </div>
 
+        <!-- Hitung WR MLBB -->
+        <div class="panel" id="panel-winrate">
+            <div class="card">
+                <div class="card-title"><i class="fas fa-trophy"></i> Hitung WR MLBB</div>
+                <div class="card-desc">Hitung target win rate berdasarkan total match dan win rate saat ini.</div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Total Match</label>
+                        <input type="number" id="wr_total" placeholder="254" value="254" />
+                    </div>
+                    <div class="form-group">
+                        <label>WR Saat Ini (%)</label>
+                        <input type="number" id="wr_now" placeholder="76.4" value="76.4" step="0.1" />
+                    </div>
+                    <div class="form-group">
+                        <label>Target WR (%)</label>
+                        <input type="number" id="wr_target" placeholder="80" value="80" step="0.1" />
+                    </div>
+                </div>
+                <button class="btn-primary" id="btn-winrate"><i class="fas fa-calculator"></i> Hitung</button>
+                <div class="result-area" id="result-winrate"></div>
+            </div>
+        </div>
+
         <div class="footer">
-            <span><i class="fas fa-bolt"></i> Ino.Tools · all-in-one API suite</span>
+            <span><i class="fas fa-bolt"></i> Ino.Tools · all-in-one suite</span>
             <span><i class="fas fa-moon"></i> <span id="footerTheme">Gelap</span> mode</span>
         </div>
     </div>
@@ -803,7 +888,6 @@ setTheme(localStorage.getItem('theme') || 'dark');
 // UTILITIES
 // ============================================================
 const API_BASE = 'https://api.ikyyxd.my.id';
-const API_FALLBACK = 'https://api.azbry.com/api';
 const UGUU_UPLOAD = 'https://api-nanzz.my.id/api/uploader/uguu.php';
 
 const toast = document.getElementById('toast');
@@ -836,7 +920,7 @@ function saveOriginalText(btn) {
 }
 
 // ============================================================
-// FETCH DENGAN TIMEOUT, RETRY, & VALIDASI
+// FETCH DENGAN TIMEOUT & RETRY
 // ============================================================
 async function fetchWithTimeout(url, options = {}, timeout = 60000) {
     const controller = new AbortController();
@@ -852,19 +936,18 @@ async function fetchWithTimeout(url, options = {}, timeout = 60000) {
     }
 }
 
-async function callApi(endpoint, params = {}, retries = 5, useFallback = false) {
-    const base = useFallback ? API_FALLBACK : API_BASE;
-    const url = new URL(endpoint, base);
+async function callApi(url, params = {}, retries = 5, method = 'GET') {
+    const urlObj = new URL(url);
     Object.keys(params).forEach(key => {
         if (params[key] !== undefined && params[key] !== null && params[key] !== '') {
-            url.searchParams.append(key, params[key]);
+            urlObj.searchParams.append(key, params[key]);
         }
     });
     let lastError;
     for (let i = 0; i < retries; i++) {
         try {
-            const resp = await fetchWithTimeout(url.toString(), {
-                method: 'GET',
+            const resp = await fetchWithTimeout(urlObj.toString(), {
+                method: method,
                 headers: { 'Accept': 'application/json' }
             }, 60000);
             const contentType = resp.headers.get('content-type') || '';
@@ -884,21 +967,13 @@ async function callApi(endpoint, params = {}, retries = 5, useFallback = false) 
                 }
                 throw new Error(msg);
             }
-            const data = await resp.json();
-            return data;
+            return await resp.json();
         } catch (err) {
             lastError = err;
             if (err.message.includes('Failed to fetch') || err.message.includes('NetworkError') || err.message.includes('Load failed')) {
                 if (i < retries - 1) {
                     await new Promise(r => setTimeout(r, 2000 * (i + 1)));
                     continue;
-                }
-                if (!useFallback) {
-                    try {
-                        return await callApi(endpoint, params, 3, true);
-                    } catch (fbErr) {
-                        throw new Error(`Primary & fallback gagal. ${fbErr.message}`);
-                    }
                 }
                 throw new Error('Gagal terhubung ke server. Cek koneksi internet. Coba lagi nanti.');
             }
@@ -909,7 +984,7 @@ async function callApi(endpoint, params = {}, retries = 5, useFallback = false) 
 }
 
 // ============================================================
-// UPLOAD TO UGUU - DENGAN VALIDASI ROBUST
+// UPLOAD TO UGUU
 // ============================================================
 async function uploadToUguu(file) {
     const formData = new FormData();
@@ -918,11 +993,7 @@ async function uploadToUguu(file) {
     if (!resp.ok) throw new Error(`Upload gagal (HTTP ${resp.status})`);
     const text = await resp.text();
     let json;
-    try {
-        json = JSON.parse(text);
-    } catch {
-        throw new Error('Invalid JSON dari uploader: ' + text.slice(0, 200));
-    }
+    try { json = JSON.parse(text); } catch { throw new Error('Invalid JSON dari uploader: ' + text.slice(0,200)); }
     const url = json.url || json.data?.url || json.file || json.link || json.result || json.uploaded_url;
     if (!url || typeof url !== 'string' || !url.startsWith('http')) {
         throw new Error('Tidak ditemukan URL di response: ' + JSON.stringify(json));
@@ -936,7 +1007,6 @@ async function uploadToUguu(file) {
 function createShareButtons(url, filename) {
     const wrapper = document.createElement('div');
     wrapper.className = 'actions';
-
     const dlBtn = document.createElement('a');
     dlBtn.className = 'btn-action';
     dlBtn.innerHTML = '<i class="fas fa-download"></i> Download';
@@ -944,50 +1014,40 @@ function createShareButtons(url, filename) {
     dlBtn.download = filename || 'download';
     dlBtn.target = '_blank';
     wrapper.appendChild(dlBtn);
-
     const waBtn = document.createElement('a');
     waBtn.className = 'btn-action';
     waBtn.innerHTML = '<i class="fab fa-whatsapp"></i> WhatsApp';
     waBtn.href = `https://wa.me/?text=${encodeURIComponent(url)}`;
     waBtn.target = '_blank';
     wrapper.appendChild(waBtn);
-
     const igBtn = document.createElement('a');
     igBtn.className = 'btn-action';
     igBtn.innerHTML = '<i class="fab fa-instagram"></i> Instagram';
     igBtn.href = `https://www.instagram.com/?url=${encodeURIComponent(url)}`;
     igBtn.target = '_blank';
     wrapper.appendChild(igBtn);
-
     const ttBtn = document.createElement('a');
     ttBtn.className = 'btn-action';
     ttBtn.innerHTML = '<i class="fab fa-tiktok"></i> TikTok';
     ttBtn.href = `https://www.tiktok.com/@upload?url=${encodeURIComponent(url)}`;
     ttBtn.target = '_blank';
     wrapper.appendChild(ttBtn);
-
     if (navigator.share) {
         const shareBtn = document.createElement('button');
         shareBtn.className = 'btn-action';
         shareBtn.innerHTML = '<i class="fas fa-share-alt"></i> Share';
         shareBtn.addEventListener('click', async () => {
-            try {
-                await navigator.share({ title: 'Ino.Tools', text: 'Hasil dari Ino.Tools', url });
-            } catch (e) { /* user cancel */ }
+            try { await navigator.share({ title: 'Ino.Tools', text: 'Hasil dari Ino.Tools', url }); } catch (e) {}
         });
         wrapper.appendChild(shareBtn);
     }
     return wrapper;
 }
 
-// ============================================================
-// SHOW RESULT ESTETIK
-// ============================================================
 function showResultEstetik(container, type, data, extra = {}) {
     container.innerHTML = '';
     const card = document.createElement('div');
     card.className = 'output-card';
-
     if (type === 'image') {
         const preview = document.createElement('div');
         preview.className = 'preview';
@@ -997,8 +1057,7 @@ function showResultEstetik(container, type, data, extra = {}) {
         img.onerror = () => { preview.innerHTML = '<span class="text-error">Gagal memuat gambar</span>'; };
         preview.appendChild(img);
         card.appendChild(preview);
-        const actions = createShareButtons(data, extra.filename || 'image.png');
-        card.appendChild(actions);
+        card.appendChild(createShareButtons(data, extra.filename || 'image.png'));
     } else if (type === 'link') {
         const preview = document.createElement('div');
         preview.className = 'preview';
@@ -1009,8 +1068,7 @@ function showResultEstetik(container, type, data, extra = {}) {
         a.innerHTML = '<i class="fas fa-external-link-alt"></i> Buka Hasil';
         preview.appendChild(a);
         card.appendChild(preview);
-        const actions = createShareButtons(data, extra.filename || 'file');
-        card.appendChild(actions);
+        card.appendChild(createShareButtons(data, extra.filename || 'file'));
     } else if (type === 'text') {
         const preview = document.createElement('div');
         preview.className = 'preview';
@@ -1025,17 +1083,8 @@ function showResultEstetik(container, type, data, extra = {}) {
         copyBtn.className = 'copy-btn';
         copyBtn.innerHTML = '<i class="fas fa-copy"></i> Salin';
         copyBtn.addEventListener('click', () => {
-            navigator.clipboard?.writeText(data).then(() => {
-                showToast('Prompt disalin!', 'success');
-            }).catch(() => {
-                const ta = document.createElement('textarea');
-                ta.value = data;
-                document.body.appendChild(ta);
-                ta.select();
-                document.execCommand('copy');
-                ta.remove();
-                showToast('Prompt disalin!', 'success');
-            });
+            navigator.clipboard?.writeText(data).then(() => showToast('Prompt disalin!', 'success'))
+                .catch(() => { const ta = document.createElement('textarea'); ta.value = data; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); showToast('Prompt disalin!', 'success'); });
         });
         box.appendChild(copyBtn);
         preview.appendChild(box);
@@ -1057,7 +1106,7 @@ function setupFileInput(inputId, labelId) {
         label.textContent = input.files.length > 0 ? input.files[0].name : 'Tidak ada file';
     });
 }
-setupFileInput('upscale_file', 'upscale_filename');
+setupFileInput('enhancer_file', 'enhancer_filename');
 setupFileInput('removebg_file', 'removebg_filename');
 setupFileInput('img2prompt_file', 'img2prompt_filename');
 setupFileInput('faceswap_file1', 'faceswap_filename1');
@@ -1144,13 +1193,42 @@ setTimeout(() => {
 const panels = {
     web2apk: document.getElementById('panel-web2apk'),
     hdvidd: document.getElementById('panel-hdvidd'),
-    upscale: document.getElementById('panel-upscale'),
+    enhancer: document.getElementById('panel-enhancer'),
     qrcode: document.getElementById('panel-qrcode'),
     removebg: document.getElementById('panel-removebg'),
     img2prompt: document.getElementById('panel-img2prompt'),
     allinone: document.getElementById('panel-allinone'),
     faceswap: document.getElementById('panel-faceswap'),
+    winrate: document.getElementById('panel-winrate'),
 };
+
+// ============================================================
+// VERSION TOGGLES
+// ============================================================
+let hdVersion = 'v1';
+let aioVersion = 'v2';
+
+document.getElementById('hdv1').addEventListener('click', function() {
+    document.querySelectorAll('#panel-hdvidd .btn-secondary').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    hdVersion = 'v1';
+});
+document.getElementById('hdv2').addEventListener('click', function() {
+    document.querySelectorAll('#panel-hdvidd .btn-secondary').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    hdVersion = 'v2';
+});
+
+document.getElementById('aiov1').addEventListener('click', function() {
+    document.querySelectorAll('#panel-allinone .btn-secondary').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    aioVersion = 'v1';
+});
+document.getElementById('aiov2').addEventListener('click', function() {
+    document.querySelectorAll('#panel-allinone .btn-secondary').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    aioVersion = 'v2';
+});
 
 // ============================================================
 // WRAPPER WITH RETRY
@@ -1201,7 +1279,7 @@ wrapWithRetry('btn-web2apk', 'result-web2apk', async () => {
     const url = document.getElementById('w2a_url').value.trim();
     const name = document.getElementById('w2a_name').value.trim();
     if (!url || !name) throw new Error('Lengkapi URL dan nama');
-    const result = await callApi('/tools/web2apk', { url, name }, 5, false);
+    const result = await callApi(API_BASE + '/tools/web2apk', { url, name });
     let link = '';
     if (typeof result === 'string' && result.startsWith('http')) link = result;
     else if (result.url) link = result.url;
@@ -1209,60 +1287,57 @@ wrapWithRetry('btn-web2apk', 'result-web2apk', async () => {
     return { type: 'link', data: link, extra: { filename: `${name}.apk` } };
 });
 
-// HD Video - upload file
+// HD Video - dengan toggle v1/v2 dan upload atau URL
 wrapWithRetry('btn-hdvidd', 'result-hdvidd', async () => {
     const fileInput = document.getElementById('hd_file');
-    if (!fileInput.files || fileInput.files.length === 0) throw new Error('Pilih video');
-    const uploadedUrl = await uploadToUguu(fileInput.files[0]);
-    const result = await callApi('/tools/hdvidd', { videourl: uploadedUrl }, 5, true);
+    const urlInput = document.getElementById('hd_url').value.trim();
+    const resolusi = document.getElementById('hd_resolusi').value;
+    let videoUrl = urlInput;
+    if (fileInput.files && fileInput.files.length > 0) {
+        videoUrl = await uploadToUguu(fileInput.files[0]);
+    }
+    if (!videoUrl) throw new Error('Masukkan URL atau upload video');
+    let endpoint;
+    if (hdVersion === 'v1') {
+        endpoint = 'https://api.nexray.eu.cc/tools/v1/hdvideo';
+    } else {
+        endpoint = 'https://api.nexray.eu.cc/tools/hdvideo';
+    }
+    const result = await callApi(endpoint, { url: videoUrl, resolusi });
     let link = '';
     if (typeof result === 'string' && result.startsWith('http')) link = result;
     else if (result.url) link = result.url;
+    else if (result.result?.url) link = result.result.url;
+    else if (result.video_url) link = result.video_url;
+    else if (result.download) link = result.download;
     else throw new Error('Tidak dapat memproses video');
     return { type: 'link', data: link, extra: { filename: 'video_hd.mp4' } };
 });
 
-// Upscale
-wrapWithRetry('btn-upscale', 'result-upscale', async () => {
-    const fileInput = document.getElementById('upscale_file');
+// Enhancer (ganti Upscale)
+wrapWithRetry('btn-enhancer', 'result-enhancer', async () => {
+    const fileInput = document.getElementById('enhancer_file');
     if (!fileInput.files || fileInput.files.length === 0) throw new Error('Pilih gambar');
     const uploadedUrl = await uploadToUguu(fileInput.files[0]);
-    try {
-        const result = await callApi('/tools/upscale', { url: uploadedUrl }, 3, false);
-        let imageUrl = '';
-        if (typeof result === 'string' && result.startsWith('http')) imageUrl = result;
-        else if (result.url) imageUrl = result.url;
-        else if (result.result) imageUrl = result.result;
-        else if (result.image) imageUrl = result.image;
-        else {
-            try { const obj = JSON.parse(result); if (obj.url) imageUrl = obj.url; } catch (_) {}
-        }
-        if (imageUrl && imageUrl.startsWith('http')) {
-            return { type: 'image', data: imageUrl, extra: { filename: 'upscaled.png' } };
-        }
-        throw new Error('Primary gagal, coba fallback');
-    } catch (e) {
-        const result = await callApi('/tools/hdimage', { url: uploadedUrl, scale: 4 }, 3, true);
-        let imageUrl = '';
-        if (typeof result === 'string' && result.startsWith('http')) imageUrl = result;
-        else if (result.url) imageUrl = result.url;
-        else if (result.result?.url) imageUrl = result.result.url;
-        else if (result.output_url) imageUrl = result.output_url;
-        else if (result.hd_image) imageUrl = result.hd_image;
-        else if (result.upscaled_url) imageUrl = result.upscaled_url;
-        else {
-            try { const obj = JSON.parse(result); if (obj.url) imageUrl = obj.url; } catch (_) {}
-        }
-        if (!imageUrl || !imageUrl.startsWith('http')) throw new Error('Fallback juga gagal');
-        return { type: 'image', data: imageUrl, extra: { filename: 'upscaled.png' } };
+    const result = await callApi('https://axlyapi.qzz.io/tools/enhance', { url: uploadedUrl });
+    let imageUrl = '';
+    if (typeof result === 'string' && result.startsWith('http')) imageUrl = result;
+    else if (result.url) imageUrl = result.url;
+    else if (result.result) imageUrl = result.result;
+    else if (result.image) imageUrl = result.image;
+    else if (result.enhanced) imageUrl = result.enhanced;
+    else {
+        try { const obj = JSON.parse(result); if (obj.url) imageUrl = obj.url; } catch (_) {}
     }
+    if (!imageUrl || !imageUrl.startsWith('http')) throw new Error('Hasil tidak berupa gambar');
+    return { type: 'image', data: imageUrl, extra: { filename: 'enhanced.png' } };
 });
 
-// QR Code
+// QR Code - pakai endpoint baru
 wrapWithRetry('btn-qrcode', 'result-qrcode', async () => {
     const text = document.getElementById('qr_text').value.trim();
     if (!text) throw new Error('Masukkan teks');
-    const result = await callApi('/tools/qrcode', { text }, 5, true);
+    const result = await callApi('https://axlyapi.qzz.io/maker/qc', { text });
     let imageUrl = '';
     if (typeof result === 'string' && result.startsWith('http')) imageUrl = result;
     else if (result.url) imageUrl = result.url;
@@ -1276,12 +1351,12 @@ wrapWithRetry('btn-qrcode', 'result-qrcode', async () => {
     return { type: 'image', data: imageUrl, extra: { filename: 'qrcode.png' } };
 });
 
-// Remove BG
+// Remove BG - endpoint baru
 wrapWithRetry('btn-removebg', 'result-removebg', async () => {
     const fileInput = document.getElementById('removebg_file');
     if (!fileInput.files || fileInput.files.length === 0) throw new Error('Pilih gambar');
     const uploadedUrl = await uploadToUguu(fileInput.files[0]);
-    const result = await callApi('/tools/removebg', { url: uploadedUrl }, 5, true);
+    const result = await callApi('https://axlyapi.qzz.io/tools/removebg', { url: uploadedUrl });
     let imageUrl = '';
     if (typeof result === 'string' && result.startsWith('http')) imageUrl = result;
     else if (result.url) imageUrl = result.url;
@@ -1299,7 +1374,7 @@ wrapWithRetry('btn-img2prompt', 'result-img2prompt', async () => {
     const fileInput = document.getElementById('img2prompt_file');
     if (!fileInput.files || fileInput.files.length === 0) throw new Error('Pilih gambar');
     const uploadedUrl = await uploadToUguu(fileInput.files[0]);
-    const result = await callApi('/tools/img2prompt', { url: uploadedUrl }, 5, true);
+    const result = await callApi(API_BASE + '/tools/img2prompt', { url: uploadedUrl });
     let prompt = '';
     if (typeof result === 'string') prompt = result;
     else if (result.prompt) prompt = result.prompt;
@@ -1309,15 +1384,22 @@ wrapWithRetry('btn-img2prompt', 'result-img2prompt', async () => {
     return { type: 'text', data: prompt, extra: { label: 'Prompt yang diekstrak:' } };
 });
 
-// All-in-One
+// All-in-One Downloader - dengan toggle v1/v2
 wrapWithRetry('btn-allinone', 'result-allinone', async () => {
     const url = document.getElementById('allinone_url').value.trim();
     if (!url) throw new Error('Masukkan URL');
-    const result = await callApi('/download/all-in-one', { url }, 5, true);
+    let endpoint;
+    if (aioVersion === 'v2') {
+        endpoint = 'https://axlyapi.qzz.io/download/aio';
+    } else {
+        endpoint = 'https://api.nexray.eu.cc/downloader/aio';
+    }
+    const result = await callApi(endpoint, { url });
     let link = '';
     if (typeof result === 'string' && result.startsWith('http')) link = result;
     else if (result.url) link = result.url;
     else if (result.download) link = result.download;
+    else if (result.result?.url) link = result.result.url;
     else throw new Error('Tidak dapat mengunduh konten');
     return { type: 'link', data: link, extra: { filename: 'download' } };
 });
@@ -1332,7 +1414,7 @@ wrapWithRetry('btn-faceswap', 'result-faceswap', async () => {
         uploadToUguu(file1.files[0]),
         uploadToUguu(file2.files[0])
     ]);
-    const result = await callApi('/edit/faceswap', { url1, url2 }, 5, true);
+    const result = await callApi(API_BASE + '/edit/faceswap', { url1, url2 });
     let imageUrl = '';
     if (typeof result === 'string' && result.startsWith('http')) imageUrl = result;
     else if (result.url) imageUrl = result.url;
@@ -1345,27 +1427,32 @@ wrapWithRetry('btn-faceswap', 'result-faceswap', async () => {
     return { type: 'image', data: imageUrl, extra: { filename: 'faceswap.png' } };
 });
 
-// ===== API HEALTH CHECK =====
-(async function healthCheck() {
-    try {
-        await callApi('/tools/qrcode', { text: 'test' }, 1, false);
-        console.log('✅ API primary sehat');
-    } catch (e) {
-        console.warn('⚠️ API primary down, akan pakai fallback');
-        try {
-            await callApi('/tools/hdimage', { url: 'https://example.com/test.jpg', scale: 2 }, 1, true);
-            console.log('✅ API fallback sehat');
-        } catch (f) {
-            console.error('❌ Semua API tidak tersedia');
-        }
-    }
-})();
+// Hitung WR MLBB
+wrapWithRetry('btn-winrate', 'result-winrate', async () => {
+    const total = parseInt(document.getElementById('wr_total').value);
+    const now = parseFloat(document.getElementById('wr_now').value);
+    const target = parseFloat(document.getElementById('wr_target').value);
+    if (!total || isNaN(now) || isNaN(target)) throw new Error('Isi semua field dengan benar');
+    if (now >= target) throw new Error('WR saat ini sudah mencapai atau melebihi target');
+    const result = await callApi('https://api.nexray.eu.cc/tools/winrate-mlbb', {
+        total_match: total,
+        wr_now: now,
+        wr_target: target
+    });
+    let display = '';
+    if (typeof result === 'string') display = result;
+    else if (result.result) display = result.result;
+    else if (result.message) display = result.message;
+    else if (result.data) display = JSON.stringify(result.data, null, 2);
+    else display = JSON.stringify(result, null, 2);
+    return { type: 'text', data: display, extra: { label: '📊 Hasil Perhitungan WR:' } };
+});
 
 // ===== INISIALISASI =====
 document.querySelectorAll('.result-area').forEach(el => {
     el.innerHTML = '<span class="text-muted">✨ Upload atau isi data, lalu klik proses</span>';
 });
-console.log('🚀 Ino.Tools siap pakai dengan failover & validasi robust!');
+console.log('🚀 Ino.Tools siap pakai dengan endpoint baru!');
 </script>
 </body>
 </html>
