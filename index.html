@@ -36,7 +36,6 @@
             --accent-glow: 0 0 30px rgba(124, 77, 255, 0.12);
             --shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.08);
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
@@ -635,8 +634,11 @@
         <!-- HEADER -->
         <header class="header">
             <div class="header-left">
-                <img class="logo-img" src="https://o.uguu.se/KLhBPUMw.jpeg" alt="Ino.Tools" onerror="this.style.display='none'" />
-                <span class="logo-text">Ino.<span>Tools</span></span>
+                <!-- LOGO dengan fallback text jika gambar gagal -->
+                <img class="logo-img" src="https://o.uguu.se/KLhBPUMw.jpeg" alt="Ino.Tools" 
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';" />
+                <span class="logo-text" style="display:none;">Ino.<span>Tools</span></span>
+                <span class="logo-text" style="display:inline;">Ino.<span>Tools</span></span>
             </div>
             <div class="header-right">
                 <a href="#" class="social-link" title="WhatsApp Channel" target="_blank"><i class="fab fa-whatsapp"></i></a>
@@ -680,7 +682,7 @@
             </div>
         </div>
 
-        <!-- HD Video - dengan toggle v1/v2 -->
+        <!-- HD Video -->
         <div class="panel" id="panel-hdvidd">
             <div class="card">
                 <div class="card-title"><i class="fas fa-video"></i> HD Video</div>
@@ -718,7 +720,7 @@
             </div>
         </div>
 
-        <!-- Enhancer (ganti Upscale) -->
+        <!-- Enhancer -->
         <div class="panel" id="panel-enhancer">
             <div class="card">
                 <div class="card-title"><i class="fas fa-expand"></i> Enhancer</div>
@@ -783,7 +785,7 @@
             </div>
         </div>
 
-        <!-- All-in-One Downloader v2 + toggle -->
+        <!-- All-in-One Downloader -->
         <div class="panel" id="panel-allinone">
             <div class="card">
                 <div class="card-title"><i class="fas fa-download"></i> All-in-One Downloader</div>
@@ -830,7 +832,7 @@
             </div>
         </div>
 
-        <!-- Hitung WR MLBB -->
+        <!-- WR MLBB -->
         <div class="panel" id="panel-winrate">
             <div class="card">
                 <div class="card-title"><i class="fas fa-trophy"></i> Hitung WR MLBB</div>
@@ -887,7 +889,6 @@ setTheme(localStorage.getItem('theme') || 'dark');
 // ============================================================
 // UTILITIES
 // ============================================================
-const API_BASE = 'https://api.ikyyxd.my.id';
 const UGUU_UPLOAD = 'https://api-nanzz.my.id/api/uploader/uguu.php';
 
 const toast = document.getElementById('toast');
@@ -920,15 +921,25 @@ function saveOriginalText(btn) {
 }
 
 // ============================================================
-// FETCH DENGAN TIMEOUT & RETRY
+// CORS PROXY - solusi untuk API yang tidak support CORS
 // ============================================================
-async function fetchWithTimeout(url, options = {}, timeout = 60000) {
+const CORS_PROXY = 'https://api.allorigins.win/raw?url=';
+
+async function fetchWithCors(url, options = {}, timeout = 60000) {
     const controller = new AbortController();
     const id = setTimeout(() => controller.abort(), timeout);
     try {
-        const response = await fetch(url, { ...options, signal: controller.signal });
+        // Coba langsung dulu (jika API support CORS)
+        try {
+            const resp = await fetch(url, { ...options, signal: controller.signal });
+            clearTimeout(id);
+            if (resp.ok) return resp;
+        } catch (_) {}
+        // Jika gagal, pakai proxy
+        const proxyUrl = CORS_PROXY + encodeURIComponent(url);
+        const resp = await fetch(proxyUrl, { ...options, signal: controller.signal });
         clearTimeout(id);
-        return response;
+        return resp;
     } catch (err) {
         clearTimeout(id);
         if (err.name === 'AbortError') throw new Error('Request timeout (60 detik). Coba lagi.');
@@ -936,7 +947,7 @@ async function fetchWithTimeout(url, options = {}, timeout = 60000) {
     }
 }
 
-async function callApi(url, params = {}, retries = 5, method = 'GET') {
+async function callApiDirect(url, params = {}, retries = 3) {
     const urlObj = new URL(url);
     Object.keys(params).forEach(key => {
         if (params[key] !== undefined && params[key] !== null && params[key] !== '') {
@@ -946,13 +957,18 @@ async function callApi(url, params = {}, retries = 5, method = 'GET') {
     let lastError;
     for (let i = 0; i < retries; i++) {
         try {
-            const resp = await fetchWithTimeout(urlObj.toString(), {
-                method: method,
+            const resp = await fetchWithCors(urlObj.toString(), {
+                method: 'GET',
                 headers: { 'Accept': 'application/json' }
             }, 60000);
             const contentType = resp.headers.get('content-type') || '';
             if (!contentType.includes('application/json')) {
                 const text = await resp.text();
+                // Coba cari URL di text
+                const match = text.match(/https?:\/\/[^\s"']+/);
+                if (match && match[0]) {
+                    return { url: match[0] };
+                }
                 throw new Error(`API returned non-JSON (${resp.status}): ${text.slice(0,200)}`);
             }
             if (!resp.ok) {
@@ -989,7 +1005,7 @@ async function callApi(url, params = {}, retries = 5, method = 'GET') {
 async function uploadToUguu(file) {
     const formData = new FormData();
     formData.append('file', file);
-    const resp = await fetchWithTimeout(UGUU_UPLOAD, { method: 'POST', body: formData }, 60000);
+    const resp = await fetchWithCors(UGUU_UPLOAD, { method: 'POST', body: formData }, 60000);
     if (!resp.ok) throw new Error(`Upload gagal (HTTP ${resp.status})`);
     const text = await resp.text();
     let json;
@@ -1279,15 +1295,16 @@ wrapWithRetry('btn-web2apk', 'result-web2apk', async () => {
     const url = document.getElementById('w2a_url').value.trim();
     const name = document.getElementById('w2a_name').value.trim();
     if (!url || !name) throw new Error('Lengkapi URL dan nama');
-    const result = await callApi(API_BASE + '/tools/web2apk', { url, name });
+    const result = await callApiDirect('https://api.ikyyxd.my.id/tools/web2apk', { url, name });
     let link = '';
     if (typeof result === 'string' && result.startsWith('http')) link = result;
     else if (result.url) link = result.url;
+    else if (result.result) link = result.result;
     else throw new Error('Tidak dapat menghasilkan APK');
     return { type: 'link', data: link, extra: { filename: `${name}.apk` } };
 });
 
-// HD Video - dengan toggle v1/v2 dan upload atau URL
+// HD Video
 wrapWithRetry('btn-hdvidd', 'result-hdvidd', async () => {
     const fileInput = document.getElementById('hd_file');
     const urlInput = document.getElementById('hd_url').value.trim();
@@ -1303,7 +1320,7 @@ wrapWithRetry('btn-hdvidd', 'result-hdvidd', async () => {
     } else {
         endpoint = 'https://api.nexray.eu.cc/tools/hdvideo';
     }
-    const result = await callApi(endpoint, { url: videoUrl, resolusi });
+    const result = await callApiDirect(endpoint, { url: videoUrl, resolusi });
     let link = '';
     if (typeof result === 'string' && result.startsWith('http')) link = result;
     else if (result.url) link = result.url;
@@ -1314,12 +1331,12 @@ wrapWithRetry('btn-hdvidd', 'result-hdvidd', async () => {
     return { type: 'link', data: link, extra: { filename: 'video_hd.mp4' } };
 });
 
-// Enhancer (ganti Upscale)
+// Enhancer
 wrapWithRetry('btn-enhancer', 'result-enhancer', async () => {
     const fileInput = document.getElementById('enhancer_file');
     if (!fileInput.files || fileInput.files.length === 0) throw new Error('Pilih gambar');
     const uploadedUrl = await uploadToUguu(fileInput.files[0]);
-    const result = await callApi('https://axlyapi.qzz.io/tools/enhance', { url: uploadedUrl });
+    const result = await callApiDirect('https://axlyapi.qzz.io/tools/enhance', { url: uploadedUrl });
     let imageUrl = '';
     if (typeof result === 'string' && result.startsWith('http')) imageUrl = result;
     else if (result.url) imageUrl = result.url;
@@ -1333,11 +1350,11 @@ wrapWithRetry('btn-enhancer', 'result-enhancer', async () => {
     return { type: 'image', data: imageUrl, extra: { filename: 'enhanced.png' } };
 });
 
-// QR Code - pakai endpoint baru
+// QR Code
 wrapWithRetry('btn-qrcode', 'result-qrcode', async () => {
     const text = document.getElementById('qr_text').value.trim();
     if (!text) throw new Error('Masukkan teks');
-    const result = await callApi('https://axlyapi.qzz.io/maker/qc', { text });
+    const result = await callApiDirect('https://axlyapi.qzz.io/maker/qc', { text });
     let imageUrl = '';
     if (typeof result === 'string' && result.startsWith('http')) imageUrl = result;
     else if (result.url) imageUrl = result.url;
@@ -1351,12 +1368,12 @@ wrapWithRetry('btn-qrcode', 'result-qrcode', async () => {
     return { type: 'image', data: imageUrl, extra: { filename: 'qrcode.png' } };
 });
 
-// Remove BG - endpoint baru
+// Remove BG
 wrapWithRetry('btn-removebg', 'result-removebg', async () => {
     const fileInput = document.getElementById('removebg_file');
     if (!fileInput.files || fileInput.files.length === 0) throw new Error('Pilih gambar');
     const uploadedUrl = await uploadToUguu(fileInput.files[0]);
-    const result = await callApi('https://axlyapi.qzz.io/tools/removebg', { url: uploadedUrl });
+    const result = await callApiDirect('https://axlyapi.qzz.io/tools/removebg', { url: uploadedUrl });
     let imageUrl = '';
     if (typeof result === 'string' && result.startsWith('http')) imageUrl = result;
     else if (result.url) imageUrl = result.url;
@@ -1374,7 +1391,7 @@ wrapWithRetry('btn-img2prompt', 'result-img2prompt', async () => {
     const fileInput = document.getElementById('img2prompt_file');
     if (!fileInput.files || fileInput.files.length === 0) throw new Error('Pilih gambar');
     const uploadedUrl = await uploadToUguu(fileInput.files[0]);
-    const result = await callApi(API_BASE + '/tools/img2prompt', { url: uploadedUrl });
+    const result = await callApiDirect('https://api.ikyyxd.my.id/tools/img2prompt', { url: uploadedUrl });
     let prompt = '';
     if (typeof result === 'string') prompt = result;
     else if (result.prompt) prompt = result.prompt;
@@ -1384,7 +1401,7 @@ wrapWithRetry('btn-img2prompt', 'result-img2prompt', async () => {
     return { type: 'text', data: prompt, extra: { label: 'Prompt yang diekstrak:' } };
 });
 
-// All-in-One Downloader - dengan toggle v1/v2
+// All-in-One Downloader
 wrapWithRetry('btn-allinone', 'result-allinone', async () => {
     const url = document.getElementById('allinone_url').value.trim();
     if (!url) throw new Error('Masukkan URL');
@@ -1394,7 +1411,7 @@ wrapWithRetry('btn-allinone', 'result-allinone', async () => {
     } else {
         endpoint = 'https://api.nexray.eu.cc/downloader/aio';
     }
-    const result = await callApi(endpoint, { url });
+    const result = await callApiDirect(endpoint, { url });
     let link = '';
     if (typeof result === 'string' && result.startsWith('http')) link = result;
     else if (result.url) link = result.url;
@@ -1414,7 +1431,7 @@ wrapWithRetry('btn-faceswap', 'result-faceswap', async () => {
         uploadToUguu(file1.files[0]),
         uploadToUguu(file2.files[0])
     ]);
-    const result = await callApi(API_BASE + '/edit/faceswap', { url1, url2 });
+    const result = await callApiDirect('https://api.ikyyxd.my.id/edit/faceswap', { url1, url2 });
     let imageUrl = '';
     if (typeof result === 'string' && result.startsWith('http')) imageUrl = result;
     else if (result.url) imageUrl = result.url;
@@ -1427,14 +1444,14 @@ wrapWithRetry('btn-faceswap', 'result-faceswap', async () => {
     return { type: 'image', data: imageUrl, extra: { filename: 'faceswap.png' } };
 });
 
-// Hitung WR MLBB
+// WR MLBB - ini yang paling stabil
 wrapWithRetry('btn-winrate', 'result-winrate', async () => {
     const total = parseInt(document.getElementById('wr_total').value);
     const now = parseFloat(document.getElementById('wr_now').value);
     const target = parseFloat(document.getElementById('wr_target').value);
     if (!total || isNaN(now) || isNaN(target)) throw new Error('Isi semua field dengan benar');
     if (now >= target) throw new Error('WR saat ini sudah mencapai atau melebihi target');
-    const result = await callApi('https://api.nexray.eu.cc/tools/winrate-mlbb', {
+    const result = await callApiDirect('https://api.nexray.eu.cc/tools/winrate-mlbb', {
         total_match: total,
         wr_now: now,
         wr_target: target
@@ -1452,7 +1469,8 @@ wrapWithRetry('btn-winrate', 'result-winrate', async () => {
 document.querySelectorAll('.result-area').forEach(el => {
     el.innerHTML = '<span class="text-muted">✨ Upload atau isi data, lalu klik proses</span>';
 });
-console.log('🚀 Ino.Tools siap pakai dengan endpoint baru!');
+console.log('🚀 Ino.Tools siap pakai dengan CORS proxy!');
+console.log('💡 Logo: https://o.uguu.se/KLhBPUMw.jpeg (fallback text jika gagal)');
 </script>
 </body>
 </html>
