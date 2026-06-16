@@ -2,87 +2,133 @@
 <html lang="id" data-theme="dark">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ino.Tools · API Suite</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <title>Ino.Tools — AI Suite</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
-        /* ----- TEMA : biru telor asin (gelap) & purple (terang) ----- */
+        /* ===== ROOT ===== */
         :root {
-            --bg-body: #0b0d15;
-            --bg-card: #141824;
-            --bg-card-hover: #1d2233;
-            --bg-input: #1f253a;
-            --border-color: #2a3050;
+            --bg-body: #0a0c1a;
+            --bg-card: rgba(6, 10, 22, 0.75);
+            --bg-input: rgba(0, 20, 40, 0.5);
+            --border-color: rgba(0, 255, 255, 0.25);
             --text-primary: #e8edf5;
             --text-secondary: #a8b5d9;
             --text-muted: #6a7a9e;
             --accent: #6c5ce7;
             --accent-glow: 0 0 30px rgba(108, 92, 231, 0.25);
             --accent-dim: rgba(108, 92, 231, 0.12);
-            --shadow: 0 16px 48px rgba(0, 0, 0, 0.7);
-            --radius: 16px;
-            --transition: 0.25s ease;
-            --tab-scroll-btn-bg: rgba(20, 24, 40, 0.85);
-            --logo-size: 120px;
+            --shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.8);
+            --radius: 2.5rem;
+            --transition: 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            --logo-size: 90px;
         }
         [data-theme="light"] {
             --bg-body: #f4f0ff;
-            --bg-card: #ffffff;
-            --bg-card-hover: #f8f5ff;
-            --bg-input: #ede8f8;
-            --border-color: #d5cce6;
+            --bg-card: rgba(255, 255, 255, 0.85);
+            --bg-input: rgba(0, 0, 0, 0.04);
+            --border-color: rgba(124, 77, 255, 0.25);
             --text-primary: #1a1035;
             --text-secondary: #4a3f6b;
             --text-muted: #7a6f99;
             --accent: #7c4dff;
             --accent-glow: 0 0 30px rgba(124, 77, 255, 0.15);
             --accent-dim: rgba(124, 77, 255, 0.10);
-            --shadow: 0 12px 40px rgba(0, 0, 0, 0.06);
-            --tab-scroll-btn-bg: rgba(255, 255, 255, 0.85);
+            --shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.15);
         }
+
+        /* ===== RESET & BASE ===== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg-body);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: radial-gradient(ellipse at 20% 30%, var(--bg-body), #020308);
             color: var(--text-primary);
-            padding: 0 16px 40px;
             min-height: 100vh;
+            padding: 2rem 1.5rem;
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            justify-content: center;
+            align-items: flex-start;
             transition: background var(--transition), color var(--transition);
         }
-        .app { max-width: 1024px; width: 100%; }
+        /* cyber grid */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(rgba(108, 92, 231, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(108, 92, 231, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .app {
+            position: relative;
+            z-index: 2;
+            max-width: 1024px;
+            width: 100%;
+        }
 
-        /* HEADER */
+        /* ===== GLASS PANEL ===== */
+        .glass-panel {
+            background: var(--bg-card);
+            backdrop-filter: blur(14px);
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow), 0 0 20px rgba(108, 92, 231, 0.08), inset 0 0 0 0.5px rgba(108, 92, 231, 0.15);
+            padding: 2rem 2rem 1.8rem;
+            transition: all var(--transition);
+        }
+
+        /* ===== HEADER ===== */
         .header {
-            padding: 12px 0;
-            border-bottom: 1px solid var(--border-color);
             display: flex;
             align-items: center;
-            justify-content: flex-start;
+            justify-content: space-between;
             flex-wrap: wrap;
             gap: 16px 24px;
-            min-height: calc(var(--logo-size) + 24px);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.8rem;
+            margin-bottom: 1.8rem;
         }
-        .header-left { display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
         .logo-img {
             height: var(--logo-size);
             width: auto;
             border-radius: 14px;
             display: block;
             object-fit: contain;
-            filter: drop-shadow(0 0 20px rgba(108, 92, 231, 0.2));
+            filter: drop-shadow(0 0 20px rgba(108, 92, 231, 0.3));
         }
-        .logo-text { font-size: 32px; font-weight: 700; color: var(--text-primary); letter-spacing: -0.5px; white-space: nowrap; }
-        .logo-text span { color: var(--accent); text-shadow: 0 0 24px var(--accent); }
-        .header-right { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .logo-text {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff, var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 12px rgba(108, 92, 231, 0.3));
+        }
+        .logo-text span {
+            background: linear-gradient(135deg, var(--accent), #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
         .social-link {
             color: var(--text-secondary);
-            font-size: 20px;
+            font-size: 18px;
             transition: all var(--transition);
             display: inline-flex;
             align-items: center;
@@ -94,10 +140,14 @@
             border: 1px solid var(--border-color);
             text-decoration: none;
         }
-        .social-link:hover { color: var(--accent); border-color: var(--accent); box-shadow: 0 0 24px var(--accent-dim); transform: translateY(-2px); }
-        .social-link i { font-size: 18px; }
+        .social-link:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+            box-shadow: 0 0 24px var(--accent-dim);
+            transform: translateY(-2px);
+        }
         .theme-toggle {
-            background: var(--bg-card);
+            background: var(--bg-input);
             border: 1px solid var(--border-color);
             border-radius: 40px;
             padding: 4px 16px;
@@ -111,17 +161,21 @@
             transition: all var(--transition);
             line-height: 1.6;
         }
-        .theme-toggle:hover { border-color: var(--accent); color: var(--text-primary); box-shadow: 0 0 20px var(--accent-dim); }
+        .theme-toggle:hover {
+            border-color: var(--accent);
+            color: var(--text-primary);
+            box-shadow: 0 0 20px var(--accent-dim);
+        }
         .theme-toggle i { font-size: 16px; color: var(--accent); }
         .theme-toggle .icon-sun { display: none; }
         .theme-toggle .icon-moon { display: inline; }
         [data-theme="light"] .theme-toggle .icon-sun { display: inline; }
         [data-theme="light"] .theme-toggle .icon-moon { display: none; }
 
-        /* TABS */
+        /* ===== TABS ===== */
         .tabs-wrapper {
             position: relative;
-            margin: 24px 0 20px;
+            margin: 0 0 20px 0;
             display: flex;
             align-items: center;
             gap: 6px;
@@ -132,8 +186,8 @@
             scroll-behavior: smooth;
             gap: 4px;
             padding: 6px 4px;
-            background: var(--bg-card);
-            border-radius: 14px;
+            background: var(--bg-input);
+            border-radius: 60px;
             border: 1px solid var(--border-color);
             flex: 1;
             scrollbar-width: none;
@@ -143,10 +197,10 @@
         .tabs-scroll::-webkit-scrollbar { display: none; }
         .tab-btn {
             flex: 0 0 auto;
-            padding: 8px 16px;
+            padding: 8px 18px;
             border: none;
             background: transparent;
-            border-radius: 10px;
+            border-radius: 40px;
             font-weight: 600;
             font-size: 13px;
             color: var(--text-secondary);
@@ -159,8 +213,12 @@
             scroll-snap-align: start;
         }
         .tab-btn i { font-size: 15px; color: var(--text-muted); transition: color var(--transition); }
-        .tab-btn:hover { color: var(--text-primary); background: var(--bg-input); }
-        .tab-btn.active { background: var(--accent); color: #fff; box-shadow: 0 0 24px rgba(108, 92, 231, 0.3); }
+        .tab-btn:hover { color: var(--text-primary); background: rgba(108, 92, 231, 0.1); }
+        .tab-btn.active {
+            background: var(--accent);
+            color: #fff;
+            box-shadow: 0 0 30px rgba(108, 92, 231, 0.3);
+        }
         .tab-btn.active i { color: #fff; }
 
         .tab-scroll-btn {
@@ -168,7 +226,7 @@
             height: 36px;
             border-radius: 50%;
             border: 1px solid var(--border-color);
-            background: var(--tab-scroll-btn-bg);
+            background: var(--bg-input);
             color: var(--text-secondary);
             cursor: pointer;
             display: flex;
@@ -178,12 +236,16 @@
             backdrop-filter: blur(8px);
             z-index: 2;
             font-size: 14px;
-            user-select: none;
         }
-        .tab-scroll-btn:hover { border-color: var(--accent); color: var(--text-primary); background: var(--bg-card); box-shadow: 0 0 20px var(--accent-dim); }
+        .tab-scroll-btn:hover { border-color: var(--accent); color: var(--text-primary); box-shadow: 0 0 20px var(--accent-dim); }
         .tab-scroll-btn.hidden { opacity: 0; pointer-events: none; visibility: hidden; }
 
-        .tabs-dots { display: flex; justify-content: center; gap: 6px; padding: 6px 0 2px; }
+        .tabs-dots {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            padding: 6px 0 2px;
+        }
         .tabs-dots .dot {
             width: 6px;
             height: 6px;
@@ -192,60 +254,89 @@
             transition: all var(--transition);
             cursor: pointer;
         }
-        .tabs-dots .dot.active { background: var(--accent); width: 20px; border-radius: 4px; box-shadow: 0 0 16px var(--accent); }
+        .tabs-dots .dot.active {
+            background: var(--accent);
+            width: 20px;
+            border-radius: 4px;
+            box-shadow: 0 0 16px var(--accent);
+        }
 
-        /* CARDS */
+        /* ===== PANELS ===== */
         .panel { display: none; animation: fadeSlide 0.3s ease; }
         .panel.active { display: block; }
         @keyframes fadeSlide { 0% { opacity: 0; transform: translateY(8px); } 100% { opacity: 1; transform: translateY(0); } }
 
+        /* ===== CARDS ===== */
         .card {
-            background: var(--bg-card);
-            border-radius: var(--radius);
-            padding: 28px 30px;
+            background: var(--bg-input);
+            border-radius: 1.8rem;
+            padding: 24px 28px;
             border: 1px solid var(--border-color);
-            box-shadow: var(--shadow);
+            backdrop-filter: blur(4px);
             transition: all var(--transition);
         }
-        .card:hover { border-color: var(--accent); box-shadow: var(--shadow), 0 0 40px rgba(108, 92, 231, 0.06); }
-        .card-title { font-size: 20px; font-weight: 700; display: flex; align-items: center; gap: 12px; margin-bottom: 4px; color: var(--text-primary); }
-        .card-title i { color: var(--accent); font-size: 22px; text-shadow: 0 0 16px var(--accent); }
+        .card:hover { border-color: var(--accent); box-shadow: 0 0 40px rgba(108, 92, 231, 0.05); }
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 4px;
+            color: var(--text-primary);
+        }
+        .card-title i { color: var(--accent); font-size: 1.5rem; text-shadow: 0 0 16px var(--accent); }
         .card-desc {
             color: var(--text-secondary);
-            font-size: 14px;
-            margin-bottom: 22px;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
             padding: 10px 16px;
-            background: var(--bg-input);
-            border-radius: 10px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 12px;
             border-left: 3px solid var(--accent);
             line-height: 1.5;
         }
 
-        .form-group { margin-bottom: 16px; }
-        .form-group label { display: block; font-weight: 600; font-size: 13px; margin-bottom: 5px; color: var(--text-secondary); }
+        /* ===== FORM ===== */
+        .form-group { margin-bottom: 14px; }
+        .form-group label { display: block; font-weight: 600; font-size: 0.8rem; margin-bottom: 4px; color: var(--text-secondary); letter-spacing: 0.3px; }
         .form-group input[type="text"], .form-group input[type="url"] {
             width: 100%;
             padding: 12px 16px;
             border: 1.5px solid var(--border-color);
-            border-radius: 12px;
+            border-radius: 14px;
             font-size: 14px;
-            background: var(--bg-input);
+            background: rgba(0,0,0,0.3);
             color: var(--text-primary);
             transition: all var(--transition);
             outline: none;
             font-family: inherit;
         }
-        .form-group input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-dim), 0 0 24px var(--accent-dim); background: var(--bg-card); }
+        .form-group input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-dim), 0 0 24px var(--accent-dim);
+        }
 
-        .file-upload-wrapper { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-        .file-upload-wrapper input[type="file"] { position: absolute; opacity: 0; width: 0.1px; height: 0.1px; pointer-events: none; }
+        .file-upload-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .file-upload-wrapper input[type="file"] {
+            position: absolute;
+            opacity: 0;
+            width: 0.1px;
+            height: 0.1px;
+            pointer-events: none;
+        }
         .file-upload-btn {
             display: inline-flex;
             align-items: center;
             gap: 8px;
             padding: 10px 22px;
-            background: var(--bg-input);
-            border-radius: 12px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 40px;
             font-weight: 600;
             font-size: 13px;
             color: var(--text-secondary);
@@ -253,16 +344,26 @@
             cursor: pointer;
             transition: all var(--transition);
         }
-        .file-upload-btn:hover { border-color: var(--accent); color: var(--text-primary); background: var(--bg-card); box-shadow: 0 0 20px var(--accent-dim); }
+        .file-upload-btn:hover { border-color: var(--accent); color: var(--text-primary); box-shadow: 0 0 20px var(--accent-dim); }
         .file-upload-btn i { color: var(--accent); }
-        .file-name { font-size: 13px; color: var(--text-muted); background: var(--bg-input); padding: 4px 14px; border-radius: 30px; max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .file-name {
+            font-size: 13px;
+            color: var(--text-muted);
+            background: rgba(0,0,0,0.2);
+            padding: 4px 14px;
+            border-radius: 30px;
+            max-width: 180px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
 
         .btn-primary {
             background: var(--accent);
             border: none;
             color: #fff;
             padding: 12px 32px;
-            border-radius: 40px;
+            border-radius: 60px;
             font-weight: 700;
             font-size: 14px;
             cursor: pointer;
@@ -270,72 +371,34 @@
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            box-shadow: 0 0 24px rgba(108, 92, 231, 0.2);
+            box-shadow: 0 0 30px rgba(108, 92, 231, 0.2);
         }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 40px rgba(108, 92, 231, 0.35); filter: brightness(1.05); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 50px rgba(108, 92, 231, 0.35); filter: brightness(1.05); }
         .btn-primary:active { transform: scale(0.97); }
         .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
 
-        /* RESULT AREA */
+        /* ===== RESULT AREA ===== */
         .result-area {
-            margin-top: 24px;
-            padding-top: 20px;
+            margin-top: 20px;
+            padding-top: 16px;
             border-top: 1px solid var(--border-color);
-            min-height: 70px;
+            min-height: 60px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             gap: 10px;
         }
-        .result-area img {
-            max-width: 100%;
-            max-height: 400px;
-            border-radius: 12px;
-            box-shadow: 0 0 30px rgba(108, 92, 231, 0.1);
-            object-fit: contain;
-            background: var(--bg-input);
-            padding: 6px;
-            border: 1px solid var(--border-color);
-        }
-        .result-area .result-text {
-            background: var(--bg-input);
-            padding: 14px 20px;
-            border-radius: 12px;
-            width: 100%;
-            word-break: break-all;
-            font-size: 14px;
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
-            max-height: 280px;
-            overflow-y: auto;
-            font-family: 'Inter', monospace;
-            line-height: 1.6;
-        }
-        .result-area .result-link {
-            color: var(--accent);
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 24px;
-            background: var(--bg-input);
-            border-radius: 40px;
-            border: 1px solid var(--border-color);
-            transition: all var(--transition);
-        }
-        .result-area .result-link:hover { background: var(--bg-card); border-color: var(--accent); box-shadow: 0 0 24px var(--accent-dim); }
 
-        /* OUTPUT ESTETIK */
+        /* ===== OUTPUT ESTETIK ===== */
         .output-card {
-            background: var(--bg-card);
-            border-radius: var(--radius);
+            background: rgba(0,0,0,0.3);
+            border-radius: 1.8rem;
             padding: 20px;
             border: 1px solid var(--border-color);
             width: 100%;
-            box-shadow: 0 0 20px var(--accent-dim);
-            margin: 8px 0;
+            box-shadow: 0 0 30px rgba(108, 92, 231, 0.06);
+            backdrop-filter: blur(4px);
         }
         .output-card .preview {
             display: flex;
@@ -343,8 +406,16 @@
             align-items: center;
             gap: 12px;
         }
-        .output-card .preview img { max-width: 100%; max-height: 300px; border-radius: 10px; }
-        .output-card .preview .info { font-size: 14px; color: var(--text-secondary); }
+        .output-card .preview img {
+            max-width: 100%;
+            max-height: 340px;
+            border-radius: 14px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 0 1px var(--border-color);
+        }
+        .output-card .preview .info {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
         .output-card .actions {
             display: flex;
             flex-wrap: wrap;
@@ -359,7 +430,7 @@
             padding: 8px 18px;
             border-radius: 40px;
             border: 1px solid var(--border-color);
-            background: var(--bg-input);
+            background: rgba(0,0,0,0.2);
             color: var(--text-secondary);
             cursor: pointer;
             font-size: 13px;
@@ -375,8 +446,8 @@
         }
         .output-card .actions .btn-action i { color: var(--accent); }
         .output-card .prompt-box {
-            background: var(--bg-input);
-            border-radius: 10px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 12px;
             padding: 14px 16px;
             border-left: 3px solid var(--accent);
             color: var(--text-primary);
@@ -393,7 +464,7 @@
             position: absolute;
             top: 8px;
             right: 8px;
-            background: var(--bg-card);
+            background: rgba(0,0,0,0.4);
             border: 1px solid var(--border-color);
             border-radius: 30px;
             padding: 4px 12px;
@@ -412,14 +483,14 @@
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
             margin: 8px auto;
-            box-shadow: 0 0 20px var(--accent-dim);
+            box-shadow: 0 0 30px var(--accent-dim);
         }
         @keyframes spin { 0% { transform: rotate(0); } 100% { transform: rotate(360deg); } }
 
         .text-muted { color: var(--text-muted); font-size: 13px; }
         .text-error { color: #f87171; font-size: 13px; }
         .retry-btn {
-            background: var(--bg-card);
+            background: rgba(0,0,0,0.3);
             border: 1px solid var(--border-color);
             border-radius: 30px;
             padding: 6px 18px;
@@ -433,25 +504,26 @@
         }
         .retry-btn:hover { border-color: var(--accent); color: var(--text-primary); box-shadow: 0 0 20px var(--accent-dim); }
 
+        /* ===== TOAST ===== */
         .toast {
             position: fixed;
             bottom: 28px;
             right: 28px;
             background: var(--bg-card);
-            backdrop-filter: blur(12px);
+            backdrop-filter: blur(20px);
             color: var(--text-primary);
             padding: 14px 24px;
-            border-radius: 40px;
+            border-radius: 60px;
             font-weight: 500;
             font-size: 14px;
-            box-shadow: var(--shadow);
+            box-shadow: var(--shadow), 0 0 30px rgba(108, 92, 231, 0.1);
             border: 1px solid var(--border-color);
             display: flex;
             align-items: center;
             gap: 12px;
-            transform: translateY(100px);
+            transform: translateY(120px);
             opacity: 0;
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
             z-index: 999;
             pointer-events: none;
             max-width: 90%;
@@ -461,63 +533,63 @@
         .toast.success i { color: #4ade80; }
         .toast.error i { color: #f87171; }
 
-        footer {
-            margin-top: 44px;
+        /* ===== FOOTER ===== */
+        .footer {
             text-align: center;
+            font-size: 0.75rem;
             color: var(--text-muted);
-            font-size: 13px;
-            border-top: 1px solid var(--border-color);
-            padding-top: 24px;
-            display: flex;
-            justify-content: center;
-            gap: 24px;
-            flex-wrap: wrap;
+            margin-top: 1.8rem;
+            border-top: 1px dashed var(--border-color);
+            padding-top: 1rem;
         }
-        footer i { color: var(--accent); text-shadow: 0 0 12px var(--accent); }
+        .footer i { color: var(--accent); }
 
-        /* Responsive */
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 700px) {
-            .header { flex-direction: column; align-items: flex-start; gap: 12px; min-height: auto; }
+            .glass-panel { padding: 1.5rem 1.2rem; }
+            .header { flex-direction: column; align-items: flex-start; gap: 12px; }
             .header-left { flex-wrap: wrap; }
-            .logo-img { height: min(var(--logo-size), 80px); }
-            .logo-text { font-size: 24px; }
+            .logo-img { height: 64px; }
+            .logo-text { font-size: 1.5rem; }
             .header-right { gap: 8px; }
-            .social-link { width: 32px; height: 32px; font-size: 16px; }
-            .social-link i { font-size: 15px; }
+            .social-link { width: 32px; height: 32px; font-size: 14px; }
+            .social-link i { font-size: 14px; }
             .theme-toggle { font-size: 12px; padding: 3px 12px; }
-        }
-        @media (max-width: 480px) {
-            .logo-img { height: min(var(--logo-size), 64px); }
-            .logo-text { font-size: 18px; }
-            .header-right { gap: 4px; }
-            .social-link { width: 28px; height: 28px; font-size: 14px; }
-            .social-link i { font-size: 13px; }
-            .theme-toggle { font-size: 11px; padding: 2px 10px; }
-            .theme-toggle i { font-size: 13px; }
-        }
-        @media (max-width: 640px) {
             .tabs-wrapper { gap: 4px; }
             .tab-scroll-btn { flex: 0 0 30px; height: 30px; font-size: 12px; }
             .tab-btn { padding: 6px 12px; font-size: 12px; }
             .tab-btn i { font-size: 13px; }
-            .card { padding: 20px 16px; }
+            .card { padding: 16px; }
             .file-upload-wrapper { flex-direction: column; align-items: stretch; }
             .file-upload-btn { justify-content: center; }
             .btn-primary { width: 100%; justify-content: center; }
             .toast { left: 16px; right: 16px; bottom: 16px; justify-content: center; text-align: center; }
         }
+        @media (max-width: 480px) {
+            .logo-img { height: 50px; }
+            .logo-text { font-size: 1.2rem; }
+            .social-link { width: 28px; height: 28px; font-size: 12px; }
+            .social-link i { font-size: 12px; }
+            .theme-toggle { font-size: 11px; padding: 2px 10px; }
+            .theme-toggle i { font-size: 13px; }
+        }
+
         ::-webkit-scrollbar { width: 5px; height: 5px; }
-        ::-webkit-scrollbar-track { background: var(--bg-input); border-radius: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 8px; }
         ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 8px; box-shadow: 0 0 12px var(--accent); }
     </style>
 </head>
 <body>
-    <div class="app">
+
+<div class="app">
+
+    <!-- ===== GLASS PANEL ===== -->
+    <div class="glass-panel">
 
         <!-- HEADER -->
         <header class="header">
             <div class="header-left">
-                <img class="logo-img" src="https://o.uguu.se/KLhBPUMw.jpeg" alt="Ino.Tools Logo" onerror="this.style.display='none'" />
+                <img class="logo-img" src="https://o.uguu.se/KLhBPUMw.jpeg" alt="Ino.Tools" onerror="this.style.display='none'" />
                 <span class="logo-text">Ino.<span>Tools</span></span>
             </div>
             <div class="header-right">
@@ -548,7 +620,8 @@
         </div>
         <div class="tabs-dots" id="tabsDots"></div>
 
-        <!-- PANELS (semua sama, hanya output yang berubah) -->
+        <!-- ===== PANELS ===== -->
+        <!-- Web2APK -->
         <div class="panel active" id="panel-web2apk">
             <div class="card">
                 <div class="card-title"><i class="fas fa-globe"></i> Web2APK</div>
@@ -559,555 +632,676 @@
                 <div class="result-area" id="result-web2apk"></div>
             </div>
         </div>
-        <!-- panel lain diisi oleh JS -->
 
-        <footer>
-            <span><i class="fas fa-bolt"></i> Ino.Tools · all-in-one API tools</span>
+        <!-- HD Video -->
+        <div class="panel" id="panel-hdvidd">
+            <div class="card">
+                <div class="card-title"><i class="fas fa-video"></i> HD Video</div>
+                <div class="card-desc">Tingkatkan kualitas video dari URL.</div>
+                <div class="form-group"><label>Video URL</label><input type="url" id="hd_url" placeholder="https://example.com/video.mp4" value="https://sample-videos.com/video321/mp4/720/big_buck_bunny_720p_1mb.mp4" /></div>
+                <button class="btn-primary" id="btn-hdvidd"><i class="fas fa-play"></i> Proses HD</button>
+                <div class="result-area" id="result-hdvidd"></div>
+            </div>
+        </div>
+
+        <!-- Upscale -->
+        <div class="panel" id="panel-upscale">
+            <div class="card">
+                <div class="card-title"><i class="fas fa-expand"></i> Upscale Gambar</div>
+                <div class="card-desc">Perbesar resolusi gambar tanpa kehilangan kualitas.</div>
+                <div class="form-group">
+                    <label>Pilih Gambar</label>
+                    <div class="file-upload-wrapper">
+                        <input type="file" id="upscale_file" accept="image/*" />
+                        <label for="upscale_file" class="file-upload-btn"><i class="fas fa-folder-open"></i> Pilih dari Galeri</label>
+                        <span class="file-name" id="upscale_filename">Tidak ada file</span>
+                    </div>
+                </div>
+                <button class="btn-primary" id="btn-upscale"><i class="fas fa-expand"></i> Upscale</button>
+                <div class="result-area" id="result-upscale"></div>
+            </div>
+        </div>
+
+        <!-- QR Code -->
+        <div class="panel" id="panel-qrcode">
+            <div class="card">
+                <div class="card-title"><i class="fas fa-qrcode"></i> QR Code</div>
+                <div class="card-desc">Buat QR Code dari teks atau link.</div>
+                <div class="form-group"><label>Isi QR</label><input type="text" id="qr_text" placeholder="Teks atau URL" value="https://example.com" /></div>
+                <button class="btn-primary" id="btn-qrcode"><i class="fas fa-qrcode"></i> Generate QR</button>
+                <div class="result-area" id="result-qrcode"></div>
+            </div>
+        </div>
+
+        <!-- Remove BG -->
+        <div class="panel" id="panel-removebg">
+            <div class="card">
+                <div class="card-title"><i class="fas fa-image"></i> Remove Background</div>
+                <div class="card-desc">Hapus latar belakang gambar secara otomatis.</div>
+                <div class="form-group">
+                    <label>Pilih Gambar</label>
+                    <div class="file-upload-wrapper">
+                        <input type="file" id="removebg_file" accept="image/*" />
+                        <label for="removebg_file" class="file-upload-btn"><i class="fas fa-folder-open"></i> Pilih dari Galeri</label>
+                        <span class="file-name" id="removebg_filename">Tidak ada file</span>
+                    </div>
+                </div>
+                <button class="btn-primary" id="btn-removebg"><i class="fas fa-eraser"></i> Hapus BG</button>
+                <div class="result-area" id="result-removebg"></div>
+            </div>
+        </div>
+
+        <!-- Img2Prompt -->
+        <div class="panel" id="panel-img2prompt">
+            <div class="card">
+                <div class="card-title"><i class="fas fa-pen-fancy"></i> Image to Prompt</div>
+                <div class="card-desc">Dapatkan deskripsi prompt dari gambar.</div>
+                <div class="form-group">
+                    <label>Pilih Gambar</label>
+                    <div class="file-upload-wrapper">
+                        <input type="file" id="img2prompt_file" accept="image/*" />
+                        <label for="img2prompt_file" class="file-upload-btn"><i class="fas fa-folder-open"></i> Pilih dari Galeri</label>
+                        <span class="file-name" id="img2prompt_filename">Tidak ada file</span>
+                    </div>
+                </div>
+                <button class="btn-primary" id="btn-img2prompt"><i class="fas fa-magic"></i> Ekstrak Prompt</button>
+                <div class="result-area" id="result-img2prompt"></div>
+            </div>
+        </div>
+
+        <!-- All-in-One -->
+        <div class="panel" id="panel-allinone">
+            <div class="card">
+                <div class="card-title"><i class="fas fa-download"></i> All-in-One Download</div>
+                <div class="card-desc">Download semua konten dari URL (video, audio, dll).</div>
+                <div class="form-group"><label>URL Konten</label><input type="url" id="allinone_url" placeholder="https://example.com/video" value="https://sample-videos.com/video321/mp4/720/big_buck_bunny_720p_1mb.mp4" /></div>
+                <button class="btn-primary" id="btn-allinone"><i class="fas fa-download"></i> Download</button>
+                <div class="result-area" id="result-allinone"></div>
+            </div>
+        </div>
+
+        <!-- Face Swap -->
+        <div class="panel" id="panel-faceswap">
+            <div class="card">
+                <div class="card-title"><i class="fas fa-exchange-alt"></i> Face Swap</div>
+                <div class="card-desc">Tukar wajah antara dua gambar.</div>
+                <div class="form-group">
+                    <label>Gambar 1 (wajah sumber)</label>
+                    <div class="file-upload-wrapper">
+                        <input type="file" id="faceswap_file1" accept="image/*" />
+                        <label for="faceswap_file1" class="file-upload-btn"><i class="fas fa-folder-open"></i> Pilih dari Galeri</label>
+                        <span class="file-name" id="faceswap_filename1">Tidak ada file</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Gambar 2 (wajah target)</label>
+                    <div class="file-upload-wrapper">
+                        <input type="file" id="faceswap_file2" accept="image/*" />
+                        <label for="faceswap_file2" class="file-upload-btn"><i class="fas fa-folder-open"></i> Pilih dari Galeri</label>
+                        <span class="file-name" id="faceswap_filename2">Tidak ada file</span>
+                    </div>
+                </div>
+                <button class="btn-primary" id="btn-faceswap"><i class="fas fa-exchange-alt"></i> Swap Face</button>
+                <div class="result-area" id="result-faceswap"></div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <span><i class="fas fa-bolt"></i> Ino.Tools · all-in-one API suite</span>
             <span><i class="fas fa-moon"></i> <span id="footerTheme">Gelap</span> mode</span>
-        </footer>
+        </div>
     </div>
+</div>
 
-    <!-- TOAST -->
-    <div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toastMsg">Berhasil</span></div>
+<!-- ===== TOAST ===== -->
+<div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toastMsg">Berhasil</span></div>
 
-    <script>
-        // ===== THEME =====
-        const themeToggle = document.getElementById('themeToggle');
-        const themeLabel = document.getElementById('themeLabel');
-        const footerTheme = document.getElementById('footerTheme');
-        const html = document.documentElement;
-        function setTheme(theme) {
-            html.setAttribute('data-theme', theme);
-            themeLabel.textContent = theme === 'dark' ? 'Gelap' : 'Terang';
-            footerTheme.textContent = theme === 'dark' ? 'Gelap' : 'Terang';
-            localStorage.setItem('theme', theme);
+<script>
+// ============================================================
+// THEME
+// ============================================================
+const themeToggle = document.getElementById('themeToggle');
+const themeLabel = document.getElementById('themeLabel');
+const footerTheme = document.getElementById('footerTheme');
+const html = document.documentElement;
+function setTheme(theme) {
+    html.setAttribute('data-theme', theme);
+    themeLabel.textContent = theme === 'dark' ? 'Gelap' : 'Terang';
+    footerTheme.textContent = theme === 'dark' ? 'Gelap' : 'Terang';
+    localStorage.setItem('theme', theme);
+}
+themeToggle.addEventListener('click', () => {
+    const current = html.getAttribute('data-theme');
+    setTheme(current === 'dark' ? 'light' : 'dark');
+});
+setTheme(localStorage.getItem('theme') || 'dark');
+
+// ============================================================
+// UTILITIES
+// ============================================================
+const API_BASE = 'https://api.ikyyxd.my.id';
+const UGUU_UPLOAD = 'https://api-nanzz.my.id/api/uploader/uguu.php';
+
+const toast = document.getElementById('toast');
+const toastMsg = document.getElementById('toastMsg');
+
+function showToast(msg, type = 'success') {
+    toastMsg.textContent = msg;
+    toast.className = 'toast show ' + type;
+    const icon = toast.querySelector('i');
+    icon.className = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
+    clearTimeout(toast._hide);
+    toast._hide = setTimeout(() => toast.classList.remove('show'), 5000);
+}
+
+function setLoading(btn, loading) {
+    if (loading) {
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
+    } else {
+        btn.disabled = false;
+        const original = btn.getAttribute('data-original') || btn.innerHTML;
+        btn.innerHTML = original;
+    }
+}
+
+function saveOriginalText(btn) {
+    if (!btn.getAttribute('data-original')) {
+        btn.setAttribute('data-original', btn.innerHTML);
+    }
+}
+
+// ============================================================
+// FETCH WITH TIMEOUT & RETRY
+// ============================================================
+async function fetchWithTimeout(url, options = {}, timeout = 35000) {
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), timeout);
+    try {
+        const response = await fetch(url, { ...options, signal: controller.signal });
+        clearTimeout(id);
+        return response;
+    } catch (err) {
+        clearTimeout(id);
+        if (err.name === 'AbortError') throw new Error('Request timeout (35 detik). Coba lagi.');
+        throw err;
+    }
+}
+
+async function callApi(endpoint, params = {}, retries = 2) {
+    const url = new URL(endpoint, API_BASE);
+    Object.keys(params).forEach(key => {
+        if (params[key] !== undefined && params[key] !== null && params[key] !== '') {
+            url.searchParams.append(key, params[key]);
         }
-        themeToggle.addEventListener('click', () => {
-            const current = html.getAttribute('data-theme');
-            setTheme(current === 'dark' ? 'light' : 'dark');
-        });
-        setTheme(localStorage.getItem('theme') || 'dark');
-
-        // ===== UTILITIES =====
-        const API_BASE = 'https://api.ikyyxd.my.id';
-        const UGUU_UPLOAD = 'https://api-nanzz.my.id/api/uploader/uguu.php';
-
-        const toast = document.getElementById('toast');
-        const toastMsg = document.getElementById('toastMsg');
-
-        function showToast(msg, type = 'success') {
-            toastMsg.textContent = msg;
-            toast.className = 'toast show ' + type;
-            const icon = toast.querySelector('i');
-            icon.className = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
-            clearTimeout(toast._hide);
-            toast._hide = setTimeout(() => toast.classList.remove('show'), 5000);
-        }
-
-        function setLoading(btn, loading) {
-            if (loading) {
-                btn.disabled = true;
-                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
+    });
+    let lastError;
+    for (let i = 0; i < retries; i++) {
+        try {
+            const resp = await fetchWithTimeout(url.toString(), {
+                method: 'GET',
+                headers: { 'Accept': 'application/json' }
+            }, 35000);
+            if (!resp.ok) {
+                const errText = await resp.text();
+                let msg = `HTTP ${resp.status}`;
+                try {
+                    const json = JSON.parse(errText);
+                    if (json.error) msg += ': ' + json.error;
+                    else if (json.message) msg += ': ' + json.message;
+                } catch (_) {
+                    msg += ': ' + errText;
+                }
+                throw new Error(msg);
+            }
+            const contentType = resp.headers.get('content-type') || '';
+            if (contentType.includes('application/json')) {
+                return await resp.json();
             } else {
-                btn.disabled = false;
-                const original = btn.getAttribute('data-original') || btn.innerHTML;
-                btn.innerHTML = original;
+                return await resp.text();
             }
-        }
-
-        function saveOriginalText(btn) {
-            if (!btn.getAttribute('data-original')) {
-                btn.setAttribute('data-original', btn.innerHTML);
+        } catch (err) {
+            lastError = err;
+            if (err.message.includes('Failed to fetch') || err.message.includes('NetworkError')) {
+                if (i < retries - 1) {
+                    await new Promise(r => setTimeout(r, 1500 * (i + 1)));
+                    continue;
+                }
+                throw new Error('Gagal terhubung ke server. Cek koneksi internet atau CORS.');
             }
+            throw err;
         }
+    }
+    throw lastError;
+}
 
-        // ===== FETCH WITH TIMEOUT & RETRY =====
-        async function fetchWithTimeout(url, options = {}, timeout = 30000) {
-            const controller = new AbortController();
-            const id = setTimeout(() => controller.abort(), timeout);
+// ============================================================
+// UPLOAD TO UGUU
+// ============================================================
+async function uploadToUguu(file) {
+    const formData = new FormData();
+    formData.append('file', file);
+    const resp = await fetchWithTimeout(UGUU_UPLOAD, { method: 'POST', body: formData }, 60000);
+    if (!resp.ok) throw new Error(`Upload gagal (HTTP ${resp.status})`);
+    const text = await resp.text();
+    try {
+        const json = JSON.parse(text);
+        if (json.url) return json.url;
+        if (json.data?.url) return json.data.url;
+        if (json.file) return json.file;
+        if (json.link) return json.link;
+        if (json.result) return json.result;
+        const str = JSON.stringify(json);
+        const match = str.match(/https?:\/\/[^\s"']+/);
+        if (match) return match[0];
+        throw new Error('Tidak ditemukan URL di response');
+    } catch (_) {
+        const match = text.match(/https?:\/\/[^\s"']+/);
+        if (match) return match[0];
+        throw new Error('Tidak ditemukan URL di response');
+    }
+}
+
+// ============================================================
+// SHARE & DOWNLOAD
+// ============================================================
+function createShareButtons(url, filename) {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'actions';
+
+    const dlBtn = document.createElement('a');
+    dlBtn.className = 'btn-action';
+    dlBtn.innerHTML = '<i class="fas fa-download"></i> Download';
+    dlBtn.href = url;
+    dlBtn.download = filename || 'download';
+    dlBtn.target = '_blank';
+    wrapper.appendChild(dlBtn);
+
+    const waBtn = document.createElement('a');
+    waBtn.className = 'btn-action';
+    waBtn.innerHTML = '<i class="fab fa-whatsapp"></i> WhatsApp';
+    waBtn.href = `https://wa.me/?text=${encodeURIComponent(url)}`;
+    waBtn.target = '_blank';
+    wrapper.appendChild(waBtn);
+
+    const igBtn = document.createElement('a');
+    igBtn.className = 'btn-action';
+    igBtn.innerHTML = '<i class="fab fa-instagram"></i> Instagram';
+    igBtn.href = `https://www.instagram.com/?url=${encodeURIComponent(url)}`;
+    igBtn.target = '_blank';
+    wrapper.appendChild(igBtn);
+
+    const ttBtn = document.createElement('a');
+    ttBtn.className = 'btn-action';
+    ttBtn.innerHTML = '<i class="fab fa-tiktok"></i> TikTok';
+    ttBtn.href = `https://www.tiktok.com/@upload?url=${encodeURIComponent(url)}`;
+    ttBtn.target = '_blank';
+    wrapper.appendChild(ttBtn);
+
+    if (navigator.share) {
+        const shareBtn = document.createElement('button');
+        shareBtn.className = 'btn-action';
+        shareBtn.innerHTML = '<i class="fas fa-share-alt"></i> Share';
+        shareBtn.addEventListener('click', async () => {
             try {
-                const response = await fetch(url, { ...options, signal: controller.signal });
-                clearTimeout(id);
-                return response;
-            } catch (err) {
-                clearTimeout(id);
-                if (err.name === 'AbortError') {
-                    throw new Error('Request timeout (30 detik). Coba lagi.');
-                }
-                throw err;
-            }
-        }
+                await navigator.share({ title: 'Ino.Tools', text: 'Hasil dari Ino.Tools', url });
+            } catch (e) { /* user cancel */ }
+        });
+        wrapper.appendChild(shareBtn);
+    }
+    return wrapper;
+}
 
-        async function callApi(endpoint, params = {}, retries = 2) {
-            const url = new URL(endpoint, API_BASE);
-            Object.keys(params).forEach(key => {
-                if (params[key] !== undefined && params[key] !== null && params[key] !== '') {
-                    url.searchParams.append(key, params[key]);
-                }
+// ============================================================
+// SHOW RESULT ESTETIK
+// ============================================================
+function showResultEstetik(container, type, data, extra = {}) {
+    container.innerHTML = '';
+    const card = document.createElement('div');
+    card.className = 'output-card';
+
+    if (type === 'image') {
+        const preview = document.createElement('div');
+        preview.className = 'preview';
+        const img = document.createElement('img');
+        img.src = data;
+        img.alt = 'Result';
+        img.onerror = () => { preview.innerHTML = '<span class="text-error">Gagal memuat gambar</span>'; };
+        preview.appendChild(img);
+        card.appendChild(preview);
+        const actions = createShareButtons(data, extra.filename || 'image.png');
+        card.appendChild(actions);
+    } else if (type === 'link') {
+        const preview = document.createElement('div');
+        preview.className = 'preview';
+        const a = document.createElement('a');
+        a.href = data;
+        a.className = 'result-link';
+        a.target = '_blank';
+        a.innerHTML = '<i class="fas fa-external-link-alt"></i> Buka Hasil';
+        preview.appendChild(a);
+        card.appendChild(preview);
+        const actions = createShareButtons(data, extra.filename || 'file');
+        card.appendChild(actions);
+    } else if (type === 'text') {
+        const preview = document.createElement('div');
+        preview.className = 'preview';
+        const info = document.createElement('div');
+        info.className = 'info';
+        info.textContent = extra.label || 'Hasil:';
+        preview.appendChild(info);
+        const box = document.createElement('div');
+        box.className = 'prompt-box';
+        box.textContent = data;
+        const copyBtn = document.createElement('button');
+        copyBtn.className = 'copy-btn';
+        copyBtn.innerHTML = '<i class="fas fa-copy"></i> Salin';
+        copyBtn.addEventListener('click', () => {
+            navigator.clipboard?.writeText(data).then(() => {
+                showToast('Prompt disalin!', 'success');
+            }).catch(() => {
+                const ta = document.createElement('textarea');
+                ta.value = data;
+                document.body.appendChild(ta);
+                ta.select();
+                document.execCommand('copy');
+                ta.remove();
+                showToast('Prompt disalin!', 'success');
             });
-            let lastError;
-            for (let i = 0; i < retries; i++) {
-                try {
-                    const resp = await fetchWithTimeout(url.toString(), {
-                        method: 'GET',
-                        headers: { 'Accept': 'application/json' }
-                    }, 30000);
-                    if (!resp.ok) {
-                        const errText = await resp.text();
-                        let msg = `HTTP ${resp.status}`;
-                        try {
-                            const json = JSON.parse(errText);
-                            if (json.error) msg += ': ' + json.error;
-                            else if (json.message) msg += ': ' + json.message;
-                        } catch (_) {
-                            msg += ': ' + errText;
-                        }
-                        throw new Error(msg);
-                    }
-                    const contentType = resp.headers.get('content-type') || '';
-                    if (contentType.includes('application/json')) {
-                        return await resp.json();
-                    } else {
-                        return await resp.text();
-                    }
-                } catch (err) {
-                    lastError = err;
-                    if (err.message.includes('Failed to fetch') || err.message.includes('NetworkError')) {
-                        if (i < retries - 1) {
-                            await new Promise(r => setTimeout(r, 1000 * (i + 1)));
-                            continue;
-                        }
-                        throw new Error('Gagal terhubung ke server. Cek koneksi internet atau CORS. Coba lagi nanti.');
-                    }
-                    throw err;
-                }
-            }
-            throw lastError;
-        }
+        });
+        box.appendChild(copyBtn);
+        preview.appendChild(box);
+        card.appendChild(preview);
+    } else if (type === 'html') {
+        card.innerHTML = data;
+    }
+    container.appendChild(card);
+}
 
-        // ===== UPLOAD TO UGUU =====
-        async function uploadToUguu(file) {
-            const formData = new FormData();
-            formData.append('file', file);
-            const resp = await fetchWithTimeout(UGUU_UPLOAD, { method: 'POST', body: formData }, 60000);
-            if (!resp.ok) throw new Error(`Upload gagal (HTTP ${resp.status})`);
-            const text = await resp.text();
-            try {
-                const json = JSON.parse(text);
-                if (json.url) return json.url;
-                if (json.data?.url) return json.data.url;
-                if (json.file) return json.file;
-                if (json.link) return json.link;
-                if (json.result) return json.result;
-                const str = JSON.stringify(json);
-                const match = str.match(/https?:\/\/[^\s"']+/);
-                if (match) return match[0];
-                throw new Error('Tidak ditemukan URL di response JSON');
-            } catch (_) {
-                const match = text.match(/https?:\/\/[^\s"']+/);
-                if (match) return match[0];
-                throw new Error('Tidak ditemukan URL di response');
-            }
-        }
+// ============================================================
+// FILE INPUT HANDLERS
+// ============================================================
+function setupFileInput(inputId, labelId) {
+    const input = document.getElementById(inputId);
+    const label = document.getElementById(labelId);
+    if (!input || !label) return;
+    input.addEventListener('change', () => {
+        label.textContent = input.files.length > 0 ? input.files[0].name : 'Tidak ada file';
+    });
+}
+setupFileInput('upscale_file', 'upscale_filename');
+setupFileInput('removebg_file', 'removebg_filename');
+setupFileInput('img2prompt_file', 'img2prompt_filename');
+setupFileInput('faceswap_file1', 'faceswap_filename1');
+setupFileInput('faceswap_file2', 'faceswap_filename2');
 
-        // ===== SHARE & DOWNLOAD =====
-        function createShareButtons(url, filename) {
+// ============================================================
+// TAB SCROLL
+// ============================================================
+const tabsScroll = document.getElementById('tabsScroll');
+const leftBtn = document.getElementById('tabScrollLeft');
+const rightBtn = document.getElementById('tabScrollRight');
+const dotsContainer = document.getElementById('tabsDots');
+const tabBtns = tabsScroll.querySelectorAll('.tab-btn');
+
+tabBtns.forEach((_, i) => {
+    const dot = document.createElement('span');
+    dot.className = 'dot' + (i === 0 ? ' active' : '');
+    dot.dataset.index = i;
+    dotsContainer.appendChild(dot);
+});
+const dots = dotsContainer.querySelectorAll('.dot');
+
+function scrollToTab(index) {
+    if (index < 0) index = 0;
+    if (index >= tabBtns.length) index = tabBtns.length - 1;
+    const target = tabBtns[index];
+    if (target) {
+        target.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        dots.forEach((d, i) => d.classList.toggle('active', i === index));
+        tabBtns.forEach((b, i) => b.classList.toggle('active', i === index));
+        const tab = target.dataset.tab;
+        Object.keys(panels).forEach(key => {
+            panels[key].classList.toggle('active', key === tab);
+        });
+        leftBtn.classList.toggle('hidden', index === 0);
+        rightBtn.classList.toggle('hidden', index === tabBtns.length - 1);
+    }
+}
+
+let currentTabIndex = 0;
+leftBtn.addEventListener('click', () => {
+    if (currentTabIndex > 0) { currentTabIndex--; scrollToTab(currentTabIndex); }
+});
+rightBtn.addEventListener('click', () => {
+    if (currentTabIndex < tabBtns.length - 1) { currentTabIndex++; scrollToTab(currentTabIndex); }
+});
+
+dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => { currentTabIndex = i; scrollToTab(i); });
+});
+tabBtns.forEach((btn, i) => {
+    btn.addEventListener('click', () => { currentTabIndex = i; scrollToTab(i); });
+});
+
+tabsScroll.addEventListener('scroll', () => {
+    let visibleIndex = 0;
+    tabBtns.forEach((btn, i) => {
+        const rect = btn.getBoundingClientRect();
+        const containerRect = tabsScroll.getBoundingClientRect();
+        if (rect.left >= containerRect.left && rect.left < containerRect.left + containerRect.width * 0.6) {
+            visibleIndex = i;
+        }
+    });
+    currentTabIndex = visibleIndex;
+    dots.forEach((d, i) => d.classList.toggle('active', i === visibleIndex));
+    tabBtns.forEach((b, i) => b.classList.toggle('active', i === visibleIndex));
+    const tab = tabBtns[visibleIndex]?.dataset.tab;
+    if (tab) {
+        Object.keys(panels).forEach(key => {
+            panels[key].classList.toggle('active', key === tab);
+        });
+    }
+    leftBtn.classList.toggle('hidden', visibleIndex === 0);
+    rightBtn.classList.toggle('hidden', visibleIndex === tabBtns.length - 1);
+});
+
+setTimeout(() => {
+    leftBtn.classList.add('hidden');
+    rightBtn.classList.toggle('hidden', tabBtns.length <= 1);
+    scrollToTab(0);
+}, 100);
+
+const panels = {
+    web2apk: document.getElementById('panel-web2apk'),
+    hdvidd: document.getElementById('panel-hdvidd'),
+    upscale: document.getElementById('panel-upscale'),
+    qrcode: document.getElementById('panel-qrcode'),
+    removebg: document.getElementById('panel-removebg'),
+    img2prompt: document.getElementById('panel-img2prompt'),
+    allinone: document.getElementById('panel-allinone'),
+    faceswap: document.getElementById('panel-faceswap'),
+};
+
+// ============================================================
+// WRAPPER WITH RETRY
+// ============================================================
+function wrapWithRetry(btnId, containerId, asyncFn) {
+    const btn = document.getElementById(btnId);
+    const container = document.getElementById(containerId);
+    const originalHandler = async () => {
+        saveOriginalText(btn);
+        setLoading(btn, true);
+        container.innerHTML = '<div class="loader"></div>';
+        try {
+            const result = await asyncFn();
+            showResultEstetik(container, result.type, result.data, result.extra || {});
+            showToast('Berhasil!', 'success');
+        } catch (e) {
             const wrapper = document.createElement('div');
-            wrapper.className = 'actions';
-
-            // Download
-            const dlBtn = document.createElement('a');
-            dlBtn.className = 'btn-action';
-            dlBtn.innerHTML = '<i class="fas fa-download"></i> Download';
-            dlBtn.href = url;
-            dlBtn.download = filename || 'download';
-            dlBtn.target = '_blank';
-            wrapper.appendChild(dlBtn);
-
-            // Share WhatsApp
-            const waBtn = document.createElement('a');
-            waBtn.className = 'btn-action';
-            waBtn.innerHTML = '<i class="fab fa-whatsapp"></i> WhatsApp';
-            waBtn.href = `https://wa.me/?text=${encodeURIComponent(url)}`;
-            waBtn.target = '_blank';
-            wrapper.appendChild(waBtn);
-
-            // Share Instagram (buka Instagram)
-            const igBtn = document.createElement('a');
-            igBtn.className = 'btn-action';
-            igBtn.innerHTML = '<i class="fab fa-instagram"></i> Instagram';
-            igBtn.href = `https://www.instagram.com/?url=${encodeURIComponent(url)}`;
-            igBtn.target = '_blank';
-            wrapper.appendChild(igBtn);
-
-            // Share TikTok (buka TikTok)
-            const ttBtn = document.createElement('a');
-            ttBtn.className = 'btn-action';
-            ttBtn.innerHTML = '<i class="fab fa-tiktok"></i> TikTok';
-            ttBtn.href = `https://www.tiktok.com/@upload?url=${encodeURIComponent(url)}`;
-            ttBtn.target = '_blank';
-            wrapper.appendChild(ttBtn);
-
-            // Share via Web Share API jika didukung
-            if (navigator.share) {
-                const shareBtn = document.createElement('button');
-                shareBtn.className = 'btn-action';
-                shareBtn.innerHTML = '<i class="fas fa-share-alt"></i> Share';
-                shareBtn.addEventListener('click', async () => {
-                    try {
-                        await navigator.share({ title: 'Ino.Tools', text: 'Hasil dari Ino.Tools', url: url });
-                    } catch (e) { /* user cancel */ }
-                });
-                wrapper.appendChild(shareBtn);
-            }
-
-            return wrapper;
-        }
-
-        // ===== SHOW RESULT (estetik) =====
-        function showResultEstetik(container, type, data, extra = {}) {
+            wrapper.style.display = 'flex';
+            wrapper.style.flexDirection = 'column';
+            wrapper.style.alignItems = 'center';
+            wrapper.style.gap = '10px';
+            const errSpan = document.createElement('span');
+            errSpan.className = 'text-error';
+            errSpan.innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + e.message;
+            wrapper.appendChild(errSpan);
+            const retryBtn = document.createElement('button');
+            retryBtn.className = 'retry-btn';
+            retryBtn.innerHTML = '<i class="fas fa-redo"></i> Coba Ulang';
+            retryBtn.addEventListener('click', originalHandler);
+            wrapper.appendChild(retryBtn);
             container.innerHTML = '';
-            const card = document.createElement('div');
-            card.className = 'output-card';
-
-            if (type === 'image') {
-                const preview = document.createElement('div');
-                preview.className = 'preview';
-                const img = document.createElement('img');
-                img.src = data;
-                img.alt = 'Result';
-                img.onerror = () => { preview.innerHTML = '<span class="text-error">Gagal memuat gambar</span>'; };
-                preview.appendChild(img);
-                card.appendChild(preview);
-                const actions = createShareButtons(data, extra.filename || 'image.png');
-                card.appendChild(actions);
-            } else if (type === 'link') {
-                const preview = document.createElement('div');
-                preview.className = 'preview';
-                const a = document.createElement('a');
-                a.href = data;
-                a.className = 'result-link';
-                a.target = '_blank';
-                a.innerHTML = '<i class="fas fa-external-link-alt"></i> Buka Hasil';
-                preview.appendChild(a);
-                card.appendChild(preview);
-                const actions = createShareButtons(data, extra.filename || 'file');
-                card.appendChild(actions);
-            } else if (type === 'text') {
-                const preview = document.createElement('div');
-                preview.className = 'preview';
-                const info = document.createElement('div');
-                info.className = 'info';
-                info.textContent = extra.label || 'Hasil:';
-                preview.appendChild(info);
-                const box = document.createElement('div');
-                box.className = 'prompt-box';
-                box.textContent = data;
-                // copy button
-                const copyBtn = document.createElement('button');
-                copyBtn.className = 'copy-btn';
-                copyBtn.innerHTML = '<i class="fas fa-copy"></i> Salin';
-                copyBtn.addEventListener('click', () => {
-                    navigator.clipboard?.writeText(data).then(() => {
-                        showToast('Prompt disalin!', 'success');
-                    }).catch(() => {
-                        // fallback
-                        const ta = document.createElement('textarea');
-                        ta.value = data;
-                        document.body.appendChild(ta);
-                        ta.select();
-                        document.execCommand('copy');
-                        ta.remove();
-                        showToast('Prompt disalin!', 'success');
-                    });
-                });
-                box.appendChild(copyBtn);
-                preview.appendChild(box);
-                card.appendChild(preview);
-            } else if (type === 'html') {
-                card.innerHTML = data;
-            }
-
-            container.appendChild(card);
+            container.appendChild(wrapper);
+            showToast(e.message, 'error');
+        } finally {
+            setLoading(btn, false);
         }
+    };
+    btn.addEventListener('click', originalHandler);
+    btn._handler = originalHandler;
+}
 
-        // ===== FILE INPUT HANDLERS =====
-        function setupFileInput(inputId, labelId) {
-            const input = document.getElementById(inputId);
-            const label = document.getElementById(labelId);
-            if (!input || !label) return;
-            input.addEventListener('change', () => {
-                label.textContent = input.files.length > 0 ? input.files[0].name : 'Tidak ada file';
-            });
-        }
-        setupFileInput('upscale_file', 'upscale_filename');
-        setupFileInput('removebg_file', 'removebg_filename');
-        setupFileInput('img2prompt_file', 'img2prompt_filename');
-        setupFileInput('faceswap_file1', 'faceswap_filename1');
-        setupFileInput('faceswap_file2', 'faceswap_filename2');
+// ============================================================
+// TOOLS
+// ============================================================
 
-        // ===== TAB SCROLL =====
-        const tabsScroll = document.getElementById('tabsScroll');
-        const leftBtn = document.getElementById('tabScrollLeft');
-        const rightBtn = document.getElementById('tabScrollRight');
-        const dotsContainer = document.getElementById('tabsDots');
-        const tabBtns = tabsScroll.querySelectorAll('.tab-btn');
+// Web2APK
+wrapWithRetry('btn-web2apk', 'result-web2apk', async () => {
+    const url = document.getElementById('w2a_url').value.trim();
+    const name = document.getElementById('w2a_name').value.trim();
+    if (!url || !name) throw new Error('Lengkapi URL dan nama');
+    const result = await callApi('/tools/web2apk', { url, name });
+    let link = '';
+    if (typeof result === 'string' && result.startsWith('http')) link = result;
+    else if (result.url) link = result.url;
+    else throw new Error('Tidak dapat menghasilkan APK');
+    return { type: 'link', data: link, extra: { filename: `${name}.apk` } };
+});
 
-        tabBtns.forEach((_, i) => {
-            const dot = document.createElement('span');
-            dot.className = 'dot' + (i === 0 ? ' active' : '');
-            dot.dataset.index = i;
-            dotsContainer.appendChild(dot);
-        });
-        const dots = dotsContainer.querySelectorAll('.dot');
+// HD Video
+wrapWithRetry('btn-hdvidd', 'result-hdvidd', async () => {
+    const url = document.getElementById('hd_url').value.trim();
+    if (!url) throw new Error('Masukkan URL video');
+    const result = await callApi('/tools/hdvidd', { videourl: url });
+    let link = '';
+    if (typeof result === 'string' && result.startsWith('http')) link = result;
+    else if (result.url) link = result.url;
+    else throw new Error('Tidak dapat memproses video');
+    return { type: 'link', data: link, extra: { filename: 'video_hd.mp4' } };
+});
 
-        function scrollToTab(index) {
-            if (index < 0) index = 0;
-            if (index >= tabBtns.length) index = tabBtns.length - 1;
-            const target = tabBtns[index];
-            if (target) {
-                target.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-                dots.forEach((d, i) => d.classList.toggle('active', i === index));
-                tabBtns.forEach((b, i) => b.classList.toggle('active', i === index));
-                const tab = target.dataset.tab;
-                Object.keys(panels).forEach(key => {
-                    panels[key].classList.toggle('active', key === tab);
-                });
-                leftBtn.classList.toggle('hidden', index === 0);
-                rightBtn.classList.toggle('hidden', index === tabBtns.length - 1);
-            }
-        }
+// Upscale
+wrapWithRetry('btn-upscale', 'result-upscale', async () => {
+    const fileInput = document.getElementById('upscale_file');
+    if (!fileInput.files || fileInput.files.length === 0) throw new Error('Pilih gambar');
+    const uploadedUrl = await uploadToUguu(fileInput.files[0]);
+    const result = await callApi('/tools/upscale', { url: uploadedUrl });
+    let imageUrl = '';
+    if (typeof result === 'string' && result.startsWith('http')) imageUrl = result;
+    else if (result.url) imageUrl = result.url;
+    else if (result.result) imageUrl = result.result;
+    else if (result.image) imageUrl = result.image;
+    else {
+        try { const obj = JSON.parse(result); if (obj.url) imageUrl = obj.url; } catch (_) {}
+    }
+    if (!imageUrl || !imageUrl.startsWith('http')) throw new Error('Hasil tidak berupa gambar');
+    return { type: 'image', data: imageUrl, extra: { filename: 'upscaled.png' } };
+});
 
-        let currentTabIndex = 0;
-        leftBtn.addEventListener('click', () => {
-            if (currentTabIndex > 0) { currentTabIndex--; scrollToTab(currentTabIndex); }
-        });
-        rightBtn.addEventListener('click', () => {
-            if (currentTabIndex < tabBtns.length - 1) { currentTabIndex++; scrollToTab(currentTabIndex); }
-        });
+// QR Code
+wrapWithRetry('btn-qrcode', 'result-qrcode', async () => {
+    const text = document.getElementById('qr_text').value.trim();
+    if (!text) throw new Error('Masukkan teks');
+    const result = await callApi('/tools/qrcode', { text });
+    let imageUrl = '';
+    if (typeof result === 'string' && result.startsWith('http')) imageUrl = result;
+    else if (result.url) imageUrl = result.url;
+    else if (result.qr) imageUrl = result.qr;
+    else if (result.image) imageUrl = result.image;
+    else {
+        try { const obj = JSON.parse(result); if (obj.url) imageUrl = obj.url; } catch (_) {}
+    }
+    if (!imageUrl || !imageUrl.startsWith('http')) throw new Error('QR tidak ditemukan');
+    return { type: 'image', data: imageUrl, extra: { filename: 'qrcode.png' } };
+});
 
-        dots.forEach((dot, i) => {
-            dot.addEventListener('click', () => { currentTabIndex = i; scrollToTab(i); });
-        });
-        tabBtns.forEach((btn, i) => {
-            btn.addEventListener('click', () => { currentTabIndex = i; scrollToTab(i); });
-        });
+// Remove BG
+wrapWithRetry('btn-removebg', 'result-removebg', async () => {
+    const fileInput = document.getElementById('removebg_file');
+    if (!fileInput.files || fileInput.files.length === 0) throw new Error('Pilih gambar');
+    const uploadedUrl = await uploadToUguu(fileInput.files[0]);
+    const result = await callApi('/tools/removebg', { url: uploadedUrl });
+    let imageUrl = '';
+    if (typeof result === 'string' && result.startsWith('http')) imageUrl = result;
+    else if (result.url) imageUrl = result.url;
+    else if (result.result) imageUrl = result.result;
+    else if (result.image) imageUrl = result.image;
+    else {
+        try { const obj = JSON.parse(result); if (obj.url) imageUrl = obj.url; } catch (_) {}
+    }
+    if (!imageUrl || !imageUrl.startsWith('http')) throw new Error('Hasil tidak berupa gambar');
+    return { type: 'image', data: imageUrl, extra: { filename: 'nobg.png' } };
+});
 
-        tabsScroll.addEventListener('scroll', () => {
-            let visibleIndex = 0;
-            tabBtns.forEach((btn, i) => {
-                const rect = btn.getBoundingClientRect();
-                const containerRect = tabsScroll.getBoundingClientRect();
-                if (rect.left >= containerRect.left && rect.left < containerRect.left + containerRect.width * 0.6) {
-                    visibleIndex = i;
-                }
-            });
-            currentTabIndex = visibleIndex;
-            dots.forEach((d, i) => d.classList.toggle('active', i === visibleIndex));
-            tabBtns.forEach((b, i) => b.classList.toggle('active', i === visibleIndex));
-            const tab = tabBtns[visibleIndex]?.dataset.tab;
-            if (tab) {
-                Object.keys(panels).forEach(key => {
-                    panels[key].classList.toggle('active', key === tab);
-                });
-            }
-            leftBtn.classList.toggle('hidden', visibleIndex === 0);
-            rightBtn.classList.toggle('hidden', visibleIndex === tabBtns.length - 1);
-        });
+// Img2Prompt
+wrapWithRetry('btn-img2prompt', 'result-img2prompt', async () => {
+    const fileInput = document.getElementById('img2prompt_file');
+    if (!fileInput.files || fileInput.files.length === 0) throw new Error('Pilih gambar');
+    const uploadedUrl = await uploadToUguu(fileInput.files[0]);
+    const result = await callApi('/tools/img2prompt', { url: uploadedUrl });
+    let prompt = '';
+    if (typeof result === 'string') prompt = result;
+    else if (result.prompt) prompt = result.prompt;
+    else if (result.text) prompt = result.text;
+    else if (result.description) prompt = result.description;
+    else prompt = JSON.stringify(result, null, 2);
+    return { type: 'text', data: prompt, extra: { label: 'Prompt yang diekstrak:' } };
+});
 
-        setTimeout(() => {
-            leftBtn.classList.add('hidden');
-            rightBtn.classList.toggle('hidden', tabBtns.length <= 1);
-            scrollToTab(0);
-        }, 100);
+// All-in-One
+wrapWithRetry('btn-allinone', 'result-allinone', async () => {
+    const url = document.getElementById('allinone_url').value.trim();
+    if (!url) throw new Error('Masukkan URL');
+    const result = await callApi('/download/all-in-one', { url });
+    let link = '';
+    if (typeof result === 'string' && result.startsWith('http')) link = result;
+    else if (result.url) link = result.url;
+    else if (result.download) link = result.download;
+    else throw new Error('Tidak dapat mengunduh konten');
+    return { type: 'link', data: link, extra: { filename: 'download' } };
+});
 
-        // ===== PANELS REFERENCE =====
-        const panels = {
-            web2apk: document.getElementById('panel-web2apk'),
-            hdvidd: document.getElementById('panel-hdvidd'),
-            upscale: document.getElementById('panel-upscale'),
-            qrcode: document.getElementById('panel-qrcode'),
-            removebg: document.getElementById('panel-removebg'),
-            img2prompt: document.getElementById('panel-img2prompt'),
-            allinone: document.getElementById('panel-allinone'),
-            faceswap: document.getElementById('panel-faceswap'),
-        };
+// Face Swap
+wrapWithRetry('btn-faceswap', 'result-faceswap', async () => {
+    const file1 = document.getElementById('faceswap_file1');
+    const file2 = document.getElementById('faceswap_file2');
+    if (!file1.files || file1.files.length === 0) throw new Error('Pilih gambar 1');
+    if (!file2.files || file2.files.length === 0) throw new Error('Pilih gambar 2');
+    const [url1, url2] = await Promise.all([
+        uploadToUguu(file1.files[0]),
+        uploadToUguu(file2.files[0])
+    ]);
+    const result = await callApi('/edit/faceswap', { url1, url2 });
+    let imageUrl = '';
+    if (typeof result === 'string' && result.startsWith('http')) imageUrl = result;
+    else if (result.url) imageUrl = result.url;
+    else if (result.result) imageUrl = result.result;
+    else if (result.image) imageUrl = result.image;
+    else {
+        try { const obj = JSON.parse(result); if (obj.url) imageUrl = obj.url; } catch (_) {}
+    }
+    if (!imageUrl || !imageUrl.startsWith('http')) throw new Error('Hasil tidak berupa gambar');
+    return { type: 'image', data: imageUrl, extra: { filename: 'faceswap.png' } };
+});
 
-        // ===== WRAPPER WITH RETRY =====
-        function wrapWithRetry(btnId, containerId, asyncFn, resultType = 'html') {
-            const btn = document.getElementById(btnId);
-            const container = document.getElementById(containerId);
-            const originalHandler = async () => {
-                saveOriginalText(btn);
-                setLoading(btn, true);
-                container.innerHTML = '<div class="loader"></div>';
-                try {
-                    const result = await asyncFn();
-                    // result = { type, data, extra }
-                    showResultEstetik(container, result.type, result.data, result.extra || {});
-                    showToast('Berhasil!', 'success');
-                } catch (e) {
-                    const wrapper = document.createElement('div');
-                    wrapper.style.display = 'flex';
-                    wrapper.style.flexDirection = 'column';
-                    wrapper.style.alignItems = 'center';
-                    wrapper.style.gap = '10px';
-                    const errSpan = document.createElement('span');
-                    errSpan.className = 'text-error';
-                    errSpan.innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + e.message;
-                    wrapper.appendChild(errSpan);
-                    const retryBtn = document.createElement('button');
-                    retryBtn.className = 'retry-btn';
-                    retryBtn.innerHTML = '<i class="fas fa-redo"></i> Coba Ulang';
-                    retryBtn.addEventListener('click', originalHandler);
-                    wrapper.appendChild(retryBtn);
-                    container.innerHTML = '';
-                    container.appendChild(wrapper);
-                    showToast(e.message, 'error');
-                } finally {
-                    setLoading(btn, false);
-                }
-            };
-            btn.addEventListener('click', originalHandler);
-            btn._handler = originalHandler;
-        }
-
-        // ===== TOOLS =====
-        // Web2APK
-        wrapWithRetry('btn-web2apk', 'result-web2apk', async () => {
-            const url = document.getElementById('w2a_url').value.trim();
-            const name = document.getElementById('w2a_name').value.trim();
-            if (!url || !name) { showToast('Lengkapi URL dan nama', 'error'); throw new Error('Lengkapi URL dan nama'); }
-            const result = await callApi('/tools/web2apk', { url, name });
-            let link = '';
-            if (typeof result === 'string' && result.startsWith('http')) link = result;
-            else if (result.url) link = result.url;
-            else throw new Error('Tidak dapat menghasilkan APK');
-            return { type: 'link', data: link, extra: { filename: `${name}.apk` } };
-        });
-
-        // HD Video
-        wrapWithRetry('btn-hdvidd', 'result-hdvidd', async () => {
-            const url = document.getElementById('hd_url').value.trim();
-            if (!url) { showToast('Masukkan URL video', 'error'); throw new Error('Masukkan URL video'); }
-            const result = await callApi('/tools/hdvidd', { videourl: url });
-            let link = '';
-            if (typeof result === 'string' && result.startsWith('http')) link = result;
-            else if (result.url) link = result.url;
-            else throw new Error('Tidak dapat memproses video');
-            return { type: 'link', data: link, extra: { filename: 'video_hd.mp4' } };
-        });
-
-        // Upscale
-        wrapWithRetry('btn-upscale', 'result-upscale', async () => {
-            const fileInput = document.getElementById('upscale_file');
-            if (!fileInput.files || fileInput.files.length === 0) { showToast('Pilih gambar', 'error'); throw new Error('Pilih gambar'); }
-            const uploadedUrl = await uploadToUguu(fileInput.files[0]);
-            const result = await callApi('/tools/upscale', { url: uploadedUrl });
-            let imageUrl = '';
-            if (typeof result === 'string' && result.startsWith('http')) imageUrl = result;
-            else if (result.url) imageUrl = result.url;
-            else if (result.result) imageUrl = result.result;
-            else if (result.image) imageUrl = result.image;
-            else {
-                try { const obj = JSON.parse(result); if (obj.url) imageUrl = obj.url; } catch (_) {}
-            }
-            if (!imageUrl || !imageUrl.startsWith('http')) throw new Error('Hasil tidak berupa gambar');
-            return { type: 'image', data: imageUrl, extra: { filename: 'upscaled.png' } };
-        });
-
-        // QR Code
-        wrapWithRetry('btn-qrcode', 'result-qrcode', async () => {
-            const text = document.getElementById('qr_text').value.trim();
-            if (!text) { showToast('Masukkan teks', 'error'); throw new Error('Masukkan teks'); }
-            const result = await callApi('/tools/qrcode', { text });
-            let imageUrl = '';
-            if (typeof result === 'string' && result.startsWith('http')) imageUrl = result;
-            else if (result.url) imageUrl = result.url;
-            else if (result.qr) imageUrl = result.qr;
-            else if (result.image) imageUrl = result.image;
-            else {
-                try { const obj = JSON.parse(result); if (obj.url) imageUrl = obj.url; } catch (_) {}
-            }
-            if (!imageUrl || !imageUrl.startsWith('http')) throw new Error('QR tidak ditemukan');
-            return { type: 'image', data: imageUrl, extra: { filename: 'qrcode.png' } };
-        });
-
-        // Remove BG
-        wrapWithRetry('btn-removebg', 'result-removebg', async () => {
-            const fileInput = document.getElementById('removebg_file');
-            if (!fileInput.files || fileInput.files.length === 0) { showToast('Pilih gambar', 'error'); throw new Error('Pilih gambar'); }
-            const uploadedUrl = await uploadToUguu(fileInput.files[0]);
-            const result = await callApi('/tools/removebg', { url: uploadedUrl });
-            let imageUrl = '';
-            if (typeof result === 'string' && result.startsWith('http')) imageUrl = result;
-            else if (result.url) imageUrl = result.url;
-            else if (result.result) imageUrl = result.result;
-            else if (result.image) imageUrl = result.image;
-            else {
-                try { const obj = JSON.parse(result); if (obj.url) imageUrl = obj.url; } catch (_) {}
-            }
-            if (!imageUrl || !imageUrl.startsWith('http')) throw new Error('Hasil tidak berupa gambar');
-            return { type: 'image', data: imageUrl, extra: { filename: 'nobg.png' } };
-        });
-
-        // Image2Prompt
-        wrapWithRetry('btn-img2prompt', 'result-img2prompt', async () => {
-            const fileInput = document.getElementById('img2prompt_file');
-            if (!fileInput.files || fileInput.files.length === 0) { showToast('Pilih gambar', 'error'); throw new Error('Pilih gambar'); }
-            const uploadedUrl = await uploadToUguu(fileInput.files[0]);
-            const result = await callApi('/tools/img2prompt', { url: uploadedUrl });
-            let prompt = '';
-            if (typeof result === 'string') prompt = result;
-            else if (result.prompt) prompt = result.prompt;
-            else if (result.text) prompt = result.text;
-            else if (result.description) prompt = result.description;
-            else prompt = JSON.stringify(result, null, 2);
-            return { type: 'text', data: prompt, extra: { label: 'Prompt yang diekstrak:' } };
-        });
-
-        // All-in-One
-        wrapWithRetry('btn-allinone', 'result-allinone', async () => {
-            const url = document.getElementById('allinone_url').value.trim();
-            if (!url) { showToast('Masukkan URL', 'error'); throw new Error('Masukkan URL'); }
-            const result = await callApi('/download/all-in-one', { url });
-            let link = '';
-            if (typeof result === 'string' && result.startsWith('http')) link = result;
-            else if (result.url) link = result.url;
-            else if (result.download) link = result.download;
-            else throw new Error('Tidak dapat mengunduh konten');
-            return { type: 'link', data: link, extra: { filename: 'download' } };
-        });
-
-        // Face Swap
-        wrapWithRetry('btn-faceswap', 'result-faceswap', async () => {
-            const file1 = document.getElementById('faceswap_file1');
-            const file2 = document.getElementById('faceswap_file2');
-            if (!file1.files || file1.files.length === 0) { showToast('Pilih gambar 1', 'error'); throw new Error('Pilih gambar 1'); }
-            if (!file2.files || file2.files.length === 0) { showToast('Pilih gambar 2', 'error'); throw new Error('Pilih gambar 2'); }
-            const [url1, url2] = await Promise.all([
-                uploadToUguu(file1.files[0]),
-                uploadToUguu(file2.files[0])
-            ]);
-            const result = await callApi('/edit/faceswap', { url1, url2 });
-            let imageUrl = '';
-            if (typeof result === 'string' && result.startsWith('http')) imageUrl = result;
-            else if (result.url) imageUrl = result.url;
-            else if (result.result) imageUrl = result.result;
-            else if (result.image) imageUrl = result.image;
-            else {
-                try { const obj = JSON.parse(result); if (obj.url) imageUrl = obj.url; } catch (_) {}
-            }
-            if (!imageUrl || !imageUrl.startsWith('http')) throw new Error('Hasil tidak berupa gambar');
-            return { type: 'image', data: imageUrl, extra: { filename: 'faceswap.png' } };
-        });
-
-        // Inisialisasi result area dengan pesan kosong
-        document.querySelectorAll('.result-area').forEach(el => {
-            el.innerHTML = '<span class="text-muted">Belum ada hasil</span>';
-        });
-        console.log('🚀 Ino.Tools siap pakai!');
-        console.log('💡 Ubah ukuran logo di CSS: --logo-size: 120px;');
-    </script>
+// Inisialisasi
+document.querySelectorAll('.result-area').forEach(el => {
+    el.innerHTML = '<span class="text-muted">✨ Upload atau isi data, lalu klik proses</span>';
+});
+console.log('🚀 Ino.Tools siap pakai!');
+console.log('💡 Ubah ukuran logo di CSS: --logo-size: 90px;');
+</script>
 </body>
 </html>
