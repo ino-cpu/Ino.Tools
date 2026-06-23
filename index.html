@@ -30,8 +30,6 @@
             --radius-sm: 10px;
             --shadow: 0 12px 48px rgba(0, 0, 0, 0.6);
         }
-
-        /* Light mode */
         body.light {
             --bg: #f1f5f9;
             --bg2: #e2e8f0;
@@ -44,7 +42,6 @@
             --muted: #64748b;
             --shadow: 0 12px 48px rgba(0, 0, 0, 0.1);
         }
-
         body {
             font-family: 'Inter', sans-serif;
             background: var(--bg);
@@ -53,23 +50,11 @@
             min-height: 100vh;
             transition: background 0.3s, color 0.3s;
         }
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: var(--bg);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--border);
-            border-radius: 8px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--accent);
-        }
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 8px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+        .container { max-width: 1100px; margin: 0 auto; }
 
         /* ============================================================
            HEADER
@@ -100,11 +85,7 @@
             align-items: center;
             justify-content: center;
         }
-        .logo-icon img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        .logo-icon img { width: 100%; height: 100%; object-fit: cover; }
         .logo-text h1 {
             font-size: 26px;
             font-weight: 800;
@@ -112,17 +93,8 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .logo-text span {
-            font-size: 13px;
-            color: var(--text2);
-            display: block;
-            margin-top: -2px;
-        }
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
+        .logo-text span { font-size: 13px; color: var(--text2); display: block; margin-top: -2px; }
+        .header-right { display: flex; align-items: center; gap: 16px; }
         .header-status {
             display: flex;
             align-items: center;
@@ -138,23 +110,11 @@
             box-shadow: 0 0 12px rgba(34, 197, 94, 0.4);
         }
         @keyframes pulse {
-            0%,
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 0.6;
-                transform: scale(0.85);
-            }
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(0.85); }
         }
-        .header-status .label {
-            color: var(--text2);
-        }
-        .header-status .value {
-            color: var(--text);
-            font-weight: 500;
-        }
+        .header-status .label { color: var(--text2); }
+        .header-status .value { color: var(--text); font-weight: 500; }
 
         /* ============================================================
            THEME TOGGLE
@@ -173,10 +133,7 @@
             justify-content: center;
             color: var(--text);
         }
-        .theme-toggle:hover {
-            background: var(--border);
-            border-color: var(--border-hover);
-        }
+        .theme-toggle:hover { background: var(--border); border-color: var(--border-hover); }
 
         /* ============================================================
            SOCIAL MEDIA BAR (atas)
@@ -200,12 +157,8 @@
             gap: 6px;
             transition: color 0.2s;
         }
-        .social-bar a:hover {
-            color: var(--accent);
-        }
-        .social-bar .social-icon {
-            font-size: 18px;
-        }
+        .social-bar a:hover { color: var(--accent); }
+        .social-bar .social-icon { font-size: 18px; }
 
         /* ============================================================
            BANNER VIDEO
@@ -225,19 +178,18 @@
             aspect-ratio: 16 / 5;
             object-fit: cover;
             filter: brightness(0.85) saturate(1.1);
-            cursor: pointer;
         }
         .banner-overlay {
             position: absolute;
             inset: 0;
-            background: linear-gradient(135deg, rgba(8, 11, 18, 0.7) 0%, transparent 60%, rgba(8, 11, 18, 0.3) 100%);
+            background: linear-gradient(135deg, rgba(8,11,18,0.7) 0%, transparent 60%, rgba(8,11,18,0.3) 100%);
             pointer-events: none;
         }
         .banner-hint {
             position: absolute;
             bottom: 16px;
             right: 20px;
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(0,0,0,0.6);
             padding: 6px 14px;
             border-radius: 20px;
             font-size: 12px;
@@ -247,9 +199,7 @@
             opacity: 0;
             transition: opacity 0.5s;
         }
-        .banner-hint.show {
-            opacity: 1;
-        }
+        .banner-hint.show { opacity: 1; }
 
         /* ============================================================
            SECTION
@@ -257,15 +207,8 @@
         .section-head {
             margin: 40px 0 12px;
         }
-        .section-head h2 {
-            font-size: 26px;
-            font-weight: 700;
-        }
-        .section-head p {
-            color: var(--text2);
-            font-size: 15px;
-            margin-top: 4px;
-        }
+        .section-head h2 { font-size: 26px; font-weight: 700; }
+        .section-head p { color: var(--text2); font-size: 15px; margin-top: 4px; }
 
         /* ============================================================
            GRID & CARDS
@@ -301,9 +244,7 @@
             transform: translateY(-6px);
             box-shadow: var(--shadow);
         }
-        .card:hover::before {
-            opacity: 1;
-        }
+        .card:hover::before { opacity: 1; }
         .card-header {
             display: flex;
             align-items: center;
@@ -314,19 +255,16 @@
             width: 40px;
             height: 40px;
             border-radius: 10px;
-            background: rgba(91, 124, 250, 0.12);
+            background: rgba(91,124,250,0.12);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 20px;
             flex-shrink: 0;
         }
-        .card-header h3 {
-            font-size: 17px;
-            font-weight: 600;
-        }
+        .card-header h3 { font-size: 17px; font-weight: 600; }
         .card-header .badge {
-            background: rgba(91, 124, 250, 0.15);
+            background: rgba(91,124,250,0.15);
             color: var(--accent);
             font-size: 10px;
             font-weight: 600;
@@ -382,14 +320,10 @@
         }
         .input-field input[type="text"]:focus {
             border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(91, 124, 250, 0.15);
+            box-shadow: 0 0 0 3px rgba(91,124,250,0.15);
         }
-        .input-field input[type="text"]::placeholder {
-            color: var(--muted);
-        }
-        .input-field input[type="file"] {
-            display: none;
-        }
+        .input-field input[type="text"]::placeholder { color: var(--muted); }
+        .input-field input[type="file"] { display: none; }
 
         /* ============================================================
            FILE PICKER
@@ -421,23 +355,15 @@
             border-color: var(--border-hover);
             color: var(--text);
         }
-        .btn-pick-file .icon-big {
-            font-size: 22px;
-        }
+        .btn-pick-file .icon-big { font-size: 22px; }
         .file-status {
             font-size: 13px;
             color: var(--text2);
             min-height: 20px;
         }
-        .file-status.success {
-            color: #22c55e;
-        }
-        .file-status.error {
-            color: #ef4444;
-        }
-        .file-status.loading {
-            color: var(--accent);
-        }
+        .file-status.success { color: #22c55e; }
+        .file-status.error { color: #ef4444; }
+        .file-status.loading { color: var(--accent); }
 
         /* ============================================================
            BUTTON EXECUTE
@@ -462,14 +388,12 @@
         }
         .btn-execute:hover {
             transform: scale(1.01);
-            box-shadow: 0 4px 24px rgba(91, 124, 250, 0.35);
+            box-shadow: 0 4px 24px rgba(91,124,250,0.35);
         }
-        .btn-execute:active {
-            transform: scale(0.97);
-        }
+        .btn-execute:active { transform: scale(0.97); }
 
         /* ============================================================
-           RESULT BOX
+           RESULT BOX — DIPERBAIKI
            ============================================================ */
         .result-box {
             margin-top: 14px;
@@ -479,27 +403,35 @@
             font-size: 13px;
             max-height: 220px;
             overflow: auto;
-            border: 1px solid var(--border);
-            white-space: pre-wrap;
-            word-break: break-all;
-            color: var(--text2);
+            /* border dihilangkan, pakai background saja */
+            border: none;
+            color: var(--text);
             font-family: 'JetBrains Mono', monospace;
-            line-height: 1.5;
-            min-height: 56px;
+            line-height: 1.6;
+            min-height: 52px;
             position: relative;
+            transition: background 0.2s;
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03);
         }
         .result-box .placeholder {
             color: var(--muted);
             font-family: 'Inter', sans-serif;
             font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        .loader-wrap {
+        .result-box .placeholder::before {
+            content: '↳';
+            opacity: 0.5;
+        }
+        .result-box .loader-wrap {
             display: flex;
             align-items: center;
             gap: 10px;
             color: var(--accent);
         }
-        .loader {
+        .result-box .loader {
             display: inline-block;
             width: 16px;
             height: 16px;
@@ -508,10 +440,19 @@
             border-radius: 50%;
             animation: spin 0.7s linear infinite;
         }
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ============================================================
+           CARD "COMING SOON"
+           ============================================================ */
+        .card-coming .btn-execute {
+            opacity: 0.6;
+            cursor: not-allowed;
+            filter: grayscale(0.3);
+        }
+        .card-coming .btn-execute:hover {
+            transform: none;
+            box-shadow: none;
         }
 
         /* ============================================================
@@ -527,65 +468,33 @@
             flex-wrap: wrap;
             gap: 12px;
         }
-        footer p {
-            color: var(--muted);
-            font-size: 13px;
-        }
+        footer p { color: var(--muted); font-size: 13px; }
         footer a {
             color: var(--text2);
             text-decoration: none;
             transition: color 0.2s;
             font-size: 13px;
         }
-        footer a:hover {
-            color: var(--accent);
-        }
+        footer a:hover { color: var(--accent); }
 
         /* ============================================================
            RESPONSIVE
            ============================================================ */
         @media (max-width: 768px) {
-            header {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .header-right {
-                justify-content: space-between;
-            }
-            .social-bar {
-                justify-content: center;
-            }
-            .grid {
-                grid-template-columns: 1fr;
-            }
-            .banner-wrapper video {
-                aspect-ratio: 16 / 7;
-            }
-            .card-desc {
-                padding-left: 0;
-            }
-            footer {
-                flex-direction: column;
-                text-align: center;
-            }
+            header { flex-direction: column; align-items: stretch; }
+            .header-right { justify-content: space-between; }
+            .social-bar { justify-content: center; }
+            .grid { grid-template-columns: 1fr; }
+            .banner-wrapper video { aspect-ratio: 16 / 7; }
+            .card-desc { padding-left: 0; }
+            footer { flex-direction: column; text-align: center; }
         }
         @media (max-width: 480px) {
-            .file-picker-wrapper {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .card-header .badge {
-                display: none;
-            }
-            .header-status .label {
-                display: none;
-            }
-            .social-bar {
-                gap: 12px;
-            }
-            .social-bar a {
-                font-size: 13px;
-            }
+            .file-picker-wrapper { flex-direction: column; align-items: stretch; }
+            .card-header .badge { display: none; }
+            .header-status .label { display: none; }
+            .social-bar { gap: 12px; }
+            .social-bar a { font-size: 13px; }
         }
     </style>
 </head>
@@ -616,7 +525,7 @@
             </div>
         </header>
 
-        <!-- ===== SOCIAL MEDIA BAR (atas) ===== -->
+        <!-- ===== SOCIAL MEDIA BAR ===== -->
         <div class="social-bar">
             <a href="mailto:support@inodigital.com" target="_blank">
                 <span class="social-icon">📧</span> Support
@@ -671,7 +580,6 @@
                 localStorage.setItem('theme', 'dark');
             }
         }
-
         (function loadTheme() {
             const saved = localStorage.getItem('theme');
             const toggle = document.getElementById('themeToggle');
@@ -684,7 +592,7 @@
         })();
 
         // ================================================================
-        // VIDEO — Aktifkan suara dengan sekali klik di mana saja
+        // VIDEO — Aktifkan suara tanpa menghentikan putaran
         // ================================================================
         const video = document.getElementById('bannerVideo');
         const hint = document.getElementById('bannerHint');
@@ -694,13 +602,13 @@
                 video.muted = false;
                 video.play().catch(() => {});
                 hint.classList.remove('show');
-                // Hapus listener setelah pertama kali
+                // Lepas listener setelah pertama kali
                 document.removeEventListener('click', enableAudio);
                 document.removeEventListener('touchstart', enableAudio);
             }
         }
 
-        // Pasang listener untuk klik/tap di seluruh halaman
+        // Pasang listener sekali di seluruh halaman
         document.addEventListener('click', enableAudio);
         document.addEventListener('touchstart', enableAudio);
 
@@ -708,48 +616,52 @@
         video.play().catch(() => {});
 
         // ================================================================
-        // DATA FITUR
+        // DATA FITUR — All-in-One dihapus (error 403), diganti Coming Soon
         // ================================================================
-        const features = [{
-            id: 'igc',
-            title: 'iPhone Group Chat',
-            desc: 'Generate fake iMessage group chat screenshot.',
-            icon: '💬',
-            params: [
-                { key: 'profile', label: 'Foto Profil Grup', hint: 'Pilih gambar dari galeri', isImage: true },
-                { key: 'nama', label: 'Nama Grup', hint: 'contoh: Ino Digital | PUB', isImage: false },
-                { key: 'peserta', label: 'Jumlah Peserta', hint: 'contoh: 148', isImage: false }
-            ],
-            endpoint: '/api/maker/igc'
-        }, {
-            id: 'hdimage',
-            title: 'HD Image Upscale',
-            desc: 'Upscale gambar hingga 4x lebih besar.',
-            icon: '🖼️',
-            params: [
-                { key: 'url', label: 'Gambar', hint: 'Pilih gambar dari galeri', isImage: true, autoUpload: true },
-                { key: 'scale', label: 'Skala', hint: 'pilih 2, 3, atau 4', isImage: false }
-            ],
-            endpoint: '/api/tools/hdimage'
-        }, {
-            id: 'fakeff',
-            title: 'Fake FF Profile',
-            desc: 'Buat profil Free Fire palsu dengan nama custom.',
-            icon: '🎮',
-            params: [
-                { key: 'name', label: 'Nama FF', hint: 'contoh: halo1234', isImage: false }
-            ],
-            endpoint: '/api/maker/fakeff'
-        }, {
-            id: 'allinone',
-            title: 'All-in-One Download',
-            desc: 'Download file dari URL yang kamu masukkan.',
-            icon: '📦',
-            params: [
-                { key: 'url', label: 'Link Download', hint: 'contoh: https://example.com/file.mp4', isImage: false }
-            ],
-            endpoint: '/api/download/allinone'
-        }];
+        const features = [
+            {
+                id: 'igc',
+                title: 'iPhone Group Chat',
+                desc: 'Generate fake iMessage group chat screenshot.',
+                icon: '💬',
+                params: [
+                    { key: 'profile', label: 'Foto Profil Grup', hint: 'Pilih gambar dari galeri', isImage: true },
+                    { key: 'nama', label: 'Nama Grup', hint: 'contoh: Ino Digital | PUB', isImage: false },
+                    { key: 'peserta', label: 'Jumlah Peserta', hint: 'contoh: 148', isImage: false }
+                ],
+                endpoint: '/api/maker/igc'
+            },
+            {
+                id: 'hdimage',
+                title: 'HD Image Upscale',
+                desc: 'Upscale gambar hingga 4x lebih besar.',
+                icon: '🖼️',
+                params: [
+                    { key: 'url', label: 'Gambar', hint: 'Pilih gambar dari galeri', isImage: true, autoUpload: true },
+                    { key: 'scale', label: 'Skala', hint: 'pilih 2, 3, atau 4', isImage: false }
+                ],
+                endpoint: '/api/tools/hdimage'
+            },
+            {
+                id: 'fakeff',
+                title: 'Fake FF Profile',
+                desc: 'Buat profil Free Fire palsu dengan nama custom.',
+                icon: '🎮',
+                params: [
+                    { key: 'name', label: 'Nama FF', hint: 'contoh: halo1234', isImage: false }
+                ],
+                endpoint: '/api/maker/fakeff'
+            },
+            {
+                id: 'comingsoon',
+                title: '✨ Fitur Lainnya',
+                desc: 'Fitur baru akan segera hadir! Pantau terus.',
+                icon: '🚀',
+                params: [],
+                endpoint: null, // tidak punya endpoint
+                isComing: true
+            }
+        ];
 
         // ================================================================
         // RENDER CARDS
@@ -758,58 +670,58 @@
 
         features.forEach((f, idx) => {
             const card = document.createElement('div');
-            card.className = 'card';
+            card.className = 'card' + (f.isComing ? ' card-coming' : '');
 
             let inputsHtml = '';
-            let fileInputId = null;
-            let textInputIdForImage = null;
+            if (!f.isComing) {
+                f.params.forEach((p, pIdx) => {
+                    const inputId = `${f.id}_${p.key}`;
+                    const fieldId = `field_${inputId}`;
 
-            f.params.forEach((p, pIdx) => {
-                const inputId = `${f.id}_${p.key}`;
-                const fieldId = `field_${inputId}`;
-
-                if (p.isImage) {
-                    fileInputId = `${f.id}_file_${pIdx}`;
-                    textInputIdForImage = inputId;
-
-                    inputsHtml += `
-                        <div class="input-field" id="${fieldId}">
-                            <label>${p.label} <span class="hint">(${p.hint})</span></label>
-                            <div class="file-picker-wrapper">
-                                <button class="btn-pick-file" onclick="triggerUpload('${fileInputId}', '${textInputIdForImage}')">
-                                    <span class="icon-big">📁</span> Pilih File
-                                </button>
-                                <span class="file-status" id="status_${inputId}">Belum ada file</span>
+                    if (p.isImage) {
+                        const fileInputId = `${f.id}_file_${pIdx}`;
+                        const textInputIdForImage = inputId;
+                        inputsHtml += `
+                            <div class="input-field" id="${fieldId}">
+                                <label>${p.label} <span class="hint">(${p.hint})</span></label>
+                                <div class="file-picker-wrapper">
+                                    <button class="btn-pick-file" onclick="triggerUpload('${fileInputId}', '${textInputIdForImage}')">
+                                        <span class="icon-big">📁</span> Pilih File
+                                    </button>
+                                    <span class="file-status" id="status_${inputId}">Belum ada file</span>
+                                </div>
+                                <input type="hidden" id="${textInputIdForImage}" value="" />
+                                <input type="file" id="${fileInputId}" accept="image/*" style="display:none;" />
                             </div>
-                            <input type="hidden" id="${textInputIdForImage}" value="" />
-                            <input type="file" id="${fileInputId}" accept="image/*" style="display:none;" />
-                        </div>
-                    `;
-                } else {
-                    inputsHtml += `
-                        <div class="input-field" id="${fieldId}">
-                            <label>${p.label} <span class="hint">(${p.hint})</span></label>
-                            <input type="text" id="${inputId}" placeholder="${p.hint}" />
-                        </div>
-                    `;
-                }
-            });
+                        `;
+                    } else {
+                        inputsHtml += `
+                            <div class="input-field" id="${fieldId}">
+                                <label>${p.label} <span class="hint">(${p.hint})</span></label>
+                                <input type="text" id="${inputId}" placeholder="${p.hint}" />
+                            </div>
+                        `;
+                    }
+                });
+            }
+
+            const executeBtn = f.isComing
+                ? `<button class="btn-execute" style="opacity:0.5;cursor:not-allowed;">⏳ Segera Hadir</button>`
+                : `<button class="btn-execute" onclick="execute('${f.id}')">▶ Execute ✨</button>`;
 
             card.innerHTML = `
                 <div class="card-header">
                     <div class="icon">${f.icon}</div>
                     <h3>${f.title}</h3>
-                    <span class="badge">${f.id}</span>
+                    <span class="badge">${f.isComing ? 'COMING' : f.id}</span>
                 </div>
                 <p class="card-desc">${f.desc}</p>
                 <div class="input-group">
                     ${inputsHtml}
-                    <button class="btn-execute" onclick="execute('${f.id}')">
-                        ▶ Execute ✨
-                    </button>
+                    ${executeBtn}
                 </div>
                 <div class="result-box" id="result_${f.id}">
-                    <span class="placeholder">⬅️ Hasil akan muncul di sini</span>
+                    <span class="placeholder">${f.isComing ? '🚀 Nantikan pembaruan berikutnya!' : 'Hasil akan muncul di sini'}</span>
                 </div>
             `;
             container.appendChild(card);
@@ -878,11 +790,11 @@
         }
 
         // ================================================================
-        // EXECUTE
+        // EXECUTE (hanya untuk yang bukan coming soon)
         // ================================================================
         async function execute(featureId) {
             const feature = features.find(f => f.id === featureId);
-            if (!feature) return;
+            if (!feature || feature.isComing) return;
 
             const resultBox = document.getElementById(`result_${featureId}`);
             resultBox.innerHTML = `<div class="loader-wrap"><span class="loader"></span> Memproses...</div>`;
@@ -920,7 +832,6 @@
                 }
             });
 
-            // Bangun URL
             const query = new URLSearchParams(params).toString();
             const fullUrl = query ? `${feature.endpoint}?${query}` : feature.endpoint;
 
@@ -930,7 +841,7 @@
 
                 if (!response.ok) {
                     const text = await response.text();
-                    resultBox.innerHTML = `❌ HTTP ${response.status}: ${text.substring(0, 300)}`;
+                    resultBox.innerHTML = `❌ HTTP ${response.status}: ${text.substring(0, 200)}`;
                     return;
                 }
 
@@ -939,7 +850,7 @@
                 try {
                     data = JSON.parse(text);
                 } catch (e) {
-                    resultBox.innerHTML = `❌ Response bukan JSON.\nRaw: ${text.substring(0, 300)}`;
+                    resultBox.innerHTML = `❌ Response bukan JSON.\nRaw: ${text.substring(0, 200)}`;
                     return;
                 }
 
@@ -953,6 +864,5 @@
             }
         }
     </script>
-
 </body>
 </html>
