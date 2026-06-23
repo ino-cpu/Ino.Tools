@@ -6,6 +6,7 @@
     <title>Ino Digital — Premium Tools</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <style>
+        /* ===== RESET & VARIABLES ===== */
         * {
             margin: 0;
             padding: 0;
@@ -51,7 +52,7 @@
             margin: 0 auto;
         }
 
-        /* HEADER */
+        /* ===== HEADER ===== */
         header {
             display: flex;
             justify-content: space-between;
@@ -126,7 +127,7 @@
             font-weight: 500;
         }
 
-        /* BANNER */
+        /* ===== BANNER VIDEO ===== */
         .banner-wrapper {
             margin-top: 28px;
             border-radius: var(--radius);
@@ -150,7 +151,7 @@
             pointer-events: none;
         }
 
-        /* SECTION */
+        /* ===== SECTION ===== */
         .section-head {
             margin: 40px 0 12px;
         }
@@ -164,7 +165,7 @@
             margin-top: 4px;
         }
 
-        /* GRID */
+        /* ===== GRID ===== */
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -172,7 +173,7 @@
             margin-top: 16px;
         }
 
-        /* CARD */
+        /* ===== CARD ===== */
         .card {
             background: var(--card);
             border-radius: var(--radius);
@@ -239,19 +240,31 @@
             padding-left: 52px;
         }
 
-        /* INPUT */
+        /* ===== INPUT ===== */
         .input-group {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
         }
-        .input-row {
+        .input-field {
             display: flex;
-            gap: 8px;
-            align-items: center;
+            flex-direction: column;
+            gap: 4px;
         }
-        .input-row input[type="text"] {
-            flex: 1;
+        .input-field label {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text2);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .input-field label .hint {
+            font-weight: 400;
+            color: var(--muted);
+            font-size: 12px;
+        }
+        .input-field input[type="text"] {
             background: var(--input);
             border: 1px solid var(--border);
             border-radius: var(--radius-sm);
@@ -261,57 +274,66 @@
             font-family: inherit;
             outline: none;
             transition: border 0.2s, box-shadow 0.2s;
-            min-width: 0;
+            width: 100%;
         }
-        .input-row input[type="text"]:focus {
+        .input-field input[type="text"]:focus {
             border-color: var(--accent);
             box-shadow: 0 0 0 3px rgba(91, 124, 250, 0.15);
         }
-        .input-row input[type="text"]::placeholder {
+        .input-field input[type="text"]::placeholder {
             color: var(--muted);
         }
-        .input-row input[type="file"] {
+        .input-field input[type="file"] {
             display: none;
         }
-        .btn-upload {
+
+        /* Tombol Pilih File */
+        .file-picker-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .btn-pick-file {
             background: var(--input);
-            border: 1px solid var(--border);
+            border: 1px dashed var(--border);
             border-radius: var(--radius-sm);
-            padding: 11px 16px;
+            padding: 12px 20px;
             color: var(--text2);
-            font-size: 13px;
+            font-size: 14px;
             font-family: inherit;
             cursor: pointer;
             transition: all 0.2s;
-            white-space: nowrap;
             display: flex;
             align-items: center;
-            gap: 6px;
-            flex-shrink: 0;
+            gap: 10px;
+            flex: 1;
+            justify-content: center;
         }
-        .btn-upload:hover {
+        .btn-pick-file:hover {
             background: var(--border);
-            color: var(--text);
             border-color: var(--border-hover);
+            color: var(--text);
         }
-        .upload-status {
-            font-size: 12px;
+        .btn-pick-file .icon-big {
+            font-size: 22px;
+        }
+        .file-status {
+            font-size: 13px;
             color: var(--text2);
             min-height: 20px;
-            padding-left: 4px;
-            transition: all 0.2s;
         }
-        .upload-status.success {
+        .file-status.success {
             color: #22c55e;
         }
-        .upload-status.error {
+        .file-status.error {
             color: #ef4444;
         }
-        .upload-status.loading {
+        .file-status.loading {
             color: var(--accent);
         }
 
-        /* BUTTON EXECUTE */
+        /* ===== BUTTON EXECUTE ===== */
         .btn-execute {
             background: var(--gradient);
             border: none;
@@ -338,7 +360,7 @@
             transform: scale(0.97);
         }
 
-        /* RESULT */
+        /* ===== RESULT ===== */
         .result-box {
             margin-top: 14px;
             background: var(--input);
@@ -382,7 +404,7 @@
             }
         }
 
-        /* FOOTER */
+        /* ===== FOOTER ===== */
         footer {
             margin-top: 56px;
             padding: 24px 0 10px;
@@ -411,6 +433,7 @@
             gap: 20px;
         }
 
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
             header {
                 flex-direction: column;
@@ -434,12 +457,9 @@
             }
         }
         @media (max-width: 480px) {
-            .input-row {
-                flex-wrap: wrap;
-            }
-            .btn-upload {
-                width: 100%;
-                justify-content: center;
+            .file-picker-wrapper {
+                flex-direction: column;
+                align-items: stretch;
             }
             .card-header .badge {
                 display: none;
@@ -451,7 +471,7 @@
 
     <div class="container">
 
-        <!-- HEADER -->
+        <!-- ===== HEADER ===== -->
         <header>
             <a href="#" class="logo">
                 <div class="logo-icon">ID</div>
@@ -469,24 +489,24 @@
             </div>
         </header>
 
-        <!-- BANNER -->
+        <!-- ===== BANNER VIDEO ===== -->
         <div class="banner-wrapper">
-            <video autoplay loop muted playsinline>
+            <video autoplay loop playsinline>
                 <source src="https://files.catbox.moe/164r52.mp4" type="video/mp4" />
             </video>
             <div class="banner-overlay"></div>
         </div>
 
-        <!-- SECTION -->
+        <!-- ===== SECTION ===== -->
         <div class="section-head">
             <h2>⚡ Pilih Fitur</h2>
-            <p>Klik kartu, isi parameter, lalu Execute. Upload gambar langsung dari galeri.</p>
+            <p>Pilih gambar dari galeri, isi data lainnya, lalu Execute.</p>
         </div>
 
-        <!-- GRID -->
+        <!-- ===== GRID ===== -->
         <div class="grid" id="cardContainer"></div>
 
-        <!-- FOOTER -->
+        <!-- ===== FOOTER ===== -->
         <footer>
             <p>&copy; 2026 <strong style="color:var(--text);">Ino Digital</strong> — Dibuat dengan ❤️</p>
             <div class="footer-links">
@@ -499,28 +519,28 @@
     </div>
 
     <script>
-        // ============================================================
-        //  DATA FITUR
-        // ============================================================
+        // ================================================================
+        // DATA FITUR
+        // ================================================================
         const features = [{
             id: 'igc',
             title: 'iPhone Group Chat',
             desc: 'Generate fake iMessage group chat screenshot.',
             icon: '💬',
             params: [
-                { key: 'profile', label: 'Profile URL', placeholder: 'https://...', isImage: true },
-                { key: 'nama', label: 'Nama Grup', placeholder: 'Ino Digital | PUB', isImage: false },
-                { key: 'peserta', label: 'Jumlah Peserta', placeholder: '148', isImage: false }
+                { key: 'profile', label: 'Foto Profil Grup', hint: 'Pilih gambar dari galeri', isImage: true },
+                { key: 'nama', label: 'Nama Grup', hint: 'contoh: Ino Digital | PUB', isImage: false },
+                { key: 'peserta', label: 'Jumlah Peserta', hint: 'contoh: 148', isImage: false }
             ],
             endpoint: '/api/maker/igc'
         }, {
             id: 'hdimage',
             title: 'HD Image Upscale',
-            desc: 'Upscale gambar hingga 4x. Upload langsung dari galeri!',
+            desc: 'Upscale gambar hingga 4x lebih besar.',
             icon: '🖼️',
             params: [
-                { key: 'url', label: 'Image URL', placeholder: 'Pilih gambar dari galeri', isImage: true, autoUpload: true },
-                { key: 'scale', label: 'Scale (2 / 3 / 4)', placeholder: '4', isImage: false }
+                { key: 'url', label: 'Gambar', hint: 'Pilih gambar dari galeri', isImage: true, autoUpload: true },
+                { key: 'scale', label: 'Skala', hint: 'pilih 2, 3, atau 4', isImage: false }
             ],
             endpoint: '/api/tools/hdimage'
         }, {
@@ -529,7 +549,7 @@
             desc: 'Buat profil Free Fire palsu dengan nama custom.',
             icon: '🎮',
             params: [
-                { key: 'name', label: 'Nama FF', placeholder: 'halo1234', isImage: false }
+                { key: 'name', label: 'Nama FF', hint: 'contoh: halo1234', isImage: false }
             ],
             endpoint: '/api/maker/fakeff'
         }, {
@@ -541,9 +561,9 @@
             endpoint: '/api/download/allinone'
         }];
 
-        // ============================================================
-        //  RENDER CARDS
-        // ============================================================
+        // ================================================================
+        // RENDER CARDS
+        // ================================================================
         const container = document.getElementById('cardContainer');
 
         features.forEach((f, idx) => {
@@ -551,28 +571,40 @@
             card.className = 'card';
 
             let inputsHtml = '';
+            let fileInputId = null;
+            let textInputIdForImage = null;
+
             f.params.forEach((p, pIdx) => {
                 const inputId = `${f.id}_${p.key}`;
-                const fileId = `${f.id}_file_${pIdx}`;
+                const fieldId = `field_${inputId}`;
 
-                let rowHtml = `
-                    <div class="input-row">
-                        <input type="text" id="${inputId}" placeholder="${p.placeholder}" />
-                `;
-
+                // Jika ini parameter gambar, kita buat file picker
                 if (p.isImage) {
-                    rowHtml += `
-                        <input type="file" id="${fileId}" accept="image/*" />
-                        <button class="btn-upload" onclick="triggerUpload('${fileId}', '${inputId}')">
-                            📎 Upload
-                        </button>
+                    fileInputId = `${f.id}_file_${pIdx}`;
+                    textInputIdForImage = inputId; // untuk menyimpan URL hasil upload (hidden)
+
+                    inputsHtml += `
+                        <div class="input-field" id="${fieldId}">
+                            <label>${p.label} <span class="hint">(${p.hint})</span></label>
+                            <div class="file-picker-wrapper">
+                                <button class="btn-pick-file" onclick="triggerUpload('${fileInputId}', '${textInputIdForImage}')">
+                                    <span class="icon-big">📁</span> Pilih File
+                                </button>
+                                <span class="file-status" id="status_${inputId}">Belum ada file</span>
+                            </div>
+                            <input type="hidden" id="${textInputIdForImage}" value="" />
+                            <input type="file" id="${fileInputId}" accept="image/*" style="display:none;" />
+                        </div>
+                    `;
+                } else {
+                    // Parameter teks biasa
+                    inputsHtml += `
+                        <div class="input-field" id="${fieldId}">
+                            <label>${p.label} <span class="hint">(${p.hint})</span></label>
+                            <input type="text" id="${inputId}" placeholder="${p.hint}" />
+                        </div>
                     `;
                 }
-
-                rowHtml += `</div>
-                    <div class="upload-status" id="status_${inputId}"></div>
-                `;
-                inputsHtml += rowHtml;
             });
 
             card.innerHTML = `
@@ -595,9 +627,9 @@
             container.appendChild(card);
         });
 
-        // ============================================================
-        //  UPLOAD GAMBAR (via API Nanzz) — FIXED
-        // ============================================================
+        // ================================================================
+        // UPLOAD GAMBAR (via API Nanzz) — Hanya tampilkan tombol Pilih File
+        // ================================================================
         async function triggerUpload(fileInputId, textInputId) {
             const fileInput = document.getElementById(fileInputId);
             const statusEl = document.getElementById(`status_${textInputId}`);
@@ -609,7 +641,7 @@
 
                 const file = this.files[0];
                 statusEl.textContent = `⏳ Mengupload ${file.name}...`;
-                statusEl.className = 'upload-status loading';
+                statusEl.className = 'file-status loading';
 
                 const formData = new FormData();
                 formData.append('file', file);
@@ -625,8 +657,8 @@
                     try {
                         result = JSON.parse(text);
                     } catch (e) {
-                        statusEl.textContent = `❌ Gagal: Response bukan JSON (${text.substring(0, 50)})`;
-                        statusEl.className = 'upload-status error';
+                        statusEl.textContent = `❌ Gagal: response bukan JSON`;
+                        statusEl.className = 'file-status error';
                         this.value = '';
                         return;
                     }
@@ -643,24 +675,24 @@
 
                     if (url) {
                         document.getElementById(textInputId).value = url;
-                        statusEl.textContent = `✅ Berhasil! Link otomatis masuk.`;
-                        statusEl.className = 'upload-status success';
+                        statusEl.textContent = `✅ ${file.name} siap digunakan`;
+                        statusEl.className = 'file-status success';
                     } else {
-                        statusEl.textContent = `❌ Gagal: ${result.message || 'Format response tidak dikenali'}`;
-                        statusEl.className = 'upload-status error';
+                        statusEl.textContent = `❌ Gagal: ${result.message || 'format tidak dikenali'}`;
+                        statusEl.className = 'file-status error';
                     }
                 } catch (err) {
                     statusEl.textContent = `❌ Error: ${err.message}`;
-                    statusEl.className = 'upload-status error';
+                    statusEl.className = 'file-status error';
                 }
 
                 this.value = '';
             };
         }
 
-        // ============================================================
-        //  EXECUTE — dengan auto-upload + error handling total
-        // ============================================================
+        // ================================================================
+        // EXECUTE — dengan auto-upload + error handling total
+        // ================================================================
         async function execute(featureId) {
             const feature = features.find(f => f.id === featureId);
             if (!feature) return;
@@ -674,9 +706,9 @@
                 const inputEl = document.getElementById(`${featureId}_${imageParam.key}`);
                 if (!inputEl.value.trim()) {
                     const card = resultBox.closest('.card');
-                    const uploadBtn = card.querySelector('.btn-upload');
-                    if (uploadBtn) {
-                        uploadBtn.click();
+                    const pickBtn = card.querySelector('.btn-pick-file');
+                    if (pickBtn) {
+                        pickBtn.click();
                         // Tunggu sampai URL terisi (max 30 detik)
                         await new Promise(resolve => {
                             let elapsed = 0;
@@ -698,7 +730,7 @@
                 const el = document.getElementById(`${featureId}_${p.key}`);
                 if (el) {
                     const val = el.value.trim();
-                    params[p.key] = val || p.placeholder;
+                    if (val) params[p.key] = val;
                 }
             });
 
@@ -711,7 +743,6 @@
                 const proxyUrl = `proxy.php?url=${encodeURIComponent(fullUrl)}`;
                 const response = await fetch(proxyUrl);
 
-                // Cek HTTP status
                 if (!response.ok) {
                     const text = await response.text();
                     resultBox.innerHTML = `❌ HTTP ${response.status}: ${text.substring(0, 200)}`;
@@ -727,7 +758,6 @@
                     return;
                 }
 
-                // Cek error dari proxy
                 if (data.error) {
                     resultBox.innerHTML = `❌ Error: ${data.error}\n${data.detail || data.raw || ''}`;
                 } else {
